@@ -12,7 +12,7 @@ export default function NavBar(){
 
     return(
         <div className="bg-black/80 sticky top-0 z-20 backdrop-blur-xl">
-            <div className="w-full flex bg-slate-700/50 ">
+            <div className="w-full flex bg-black">
                 <div className="p-2 m-auto w-full flex max-w-7xl justify-between items-center">
                     <Link href="/">
                     <div className="flex gap-1 h-fit select-none cursor-pointer active:opacity-80 active:pb-0 

@@ -1,4 +1,5 @@
 import { recipeSchema } from "@/app/mongodb/models/recipeModel";
+import { RecipeType } from "@/app/types";
 import { ClientPromise } from "@/app/utilities/mongodb/mongoClient";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -19,14 +20,18 @@ export async function GET(request: NextRequest){
 }
 
 export async function POST(request: NextRequest){
-    const data = await request.json()
+    const data: RecipeType = await request.json()
 
     const client = await ClientPromise();
     const recipe = client.model("recipe", recipeSchema);
 
-    const result = await recipe.create(data)
-
-    return NextResponse.json({recipe: { _id: result._id, ...data} }, { status: 200 });
+    try {
+        const result = await recipe.create(data)
+        return NextResponse.json({recipe: { _id: result._id, ...data} }, { status: 200 });
+    } catch (error: any) {
+        console.log(error.message)
+        return NextResponse.json({ message: error.message }, { status: 400 });
+    }
 }
 
 export async function PATCH(request: NextRequest){
@@ -35,7 +40,11 @@ export async function PATCH(request: NextRequest){
     const client = await ClientPromise();
     const recipe = client.model("recipe", recipeSchema);
 
-    const result = await recipe.findByIdAndUpdate(data._id, data, { new: true })
-
-    return NextResponse.json({ recipe: result }, { status: 200 });
+    try {
+        const result = await recipe.findByIdAndUpdate(data._id, data, { new: true })
+        return NextResponse.json({ recipe: result }, { status: 200 });
+    } catch (error: any) {
+        console.log(error.message)
+        return NextResponse.json({ message: error.message }, { status: 400 });
+    }
 }

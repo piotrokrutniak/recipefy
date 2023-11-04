@@ -53,9 +53,9 @@ function PageButton({index, active, setPage} : {
     }){
 
     return(
-        <div className={`${active ? "bg-sky-600" : "bg-slate-300/40"} p-4 h-10 w-10 aspect-square 
+        <div className={`${active ? "bg-indigo-500" : "bg-indigo-400"} p-4 h-10 w-10 aspect-square 
             flex justify-center items-center rounded-md cursor-pointer select-none
-            opacity-80 hover:opacity-100 active:opacity-60`}
+            bg-opacity-80 hover:bg-opacity-100 active:opacity-60`}
             onClick={() => setPage(index)}> 
             {index} 
         </div>

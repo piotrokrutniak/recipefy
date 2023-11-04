@@ -1,7 +1,10 @@
 import { Schema } from "mongoose";
 
 export const ingredientSchema = new Schema({
-    _id: Schema.Types.ObjectId,
+    _id: {
+        type: Schema.Types.ObjectId,
+        auto: true,
+      },
     name: String,
     vegan: Boolean,
     vegetarian: Boolean

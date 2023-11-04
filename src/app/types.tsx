@@ -1,61 +1,24 @@
 export type FileOrUndefined = File | undefined;
 
-export type Post = {
-    id: number,
-    userId: number,
+export type RecipeType = {
+    _id?: string,
     title: string,
-    body: string
+    summary: string,
+    rating: number,
+    thumbnailUrl: string,
+    imageUrl: string
 }
 
-export type User = {
-    id: number,
+export type IngredientType = {
+    _id?: string,
     name: string,
-    phone: string,
-    email: string,
-    username: string,
-    website: string,
-    address?: Address,
-    company?: Company
+    vegan: boolean,
+    vegetarian: boolean
 }
 
-export type Address = {
-    city: string,
-    street: string,
-    suite: string,
-    zipcode: string,
-    geo: Geo,
-    company: Company
-}
-
-export type Geo = {
-    lat: string,
-    lng: string
-}
-
-export type Company = {
-    name: string,
-    catchPhrase: string,
-    bs: string
-}
-
-export type Album = {
-    id: number,
-    userId: number,
-    title: string
-}
-
-export type Photo = {
-    id: number,
-    albumId: number,
-    title: string,
-    url: string,
-    thumbnailUrl: string
-}
-
-export type Comment = {
-    id: number,
-    postId: number,
-    name: string,
-    email: string,
-    body: string
+export type RecipeIngredientType = {
+    _id?: string,
+    recipeId: string,
+    ingredientId: string,
+    measurements: string[],
 }

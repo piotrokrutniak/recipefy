@@ -1,4 +1,7 @@
+import { ingredientSchema } from "@/app/mongodb/models/ingredientModel";
 import { recipeIngredientSchema } from "@/app/mongodb/models/recipeIngredientModel";
+import { recipeSchema } from "@/app/mongodb/models/recipeModel";
+import { RecipeIngredientType } from "@/app/types";
 import { ClientPromise } from "@/app/utilities/mongodb/mongoClient";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -19,23 +22,63 @@ export async function GET(request: NextRequest){
 }
 
 export async function POST(request: NextRequest){
-    const data = await request.json()
-
+    const data: RecipeIngredientType = await request.json();
     const client = await ClientPromise();
     const recipeIngredient = client.model("recipeIngredient", recipeIngredientSchema);
 
-    const result = await recipeIngredient.create(data)
+    const recipe = client.model("recipe", recipeSchema);
+    const ingredient = client.model("ingredient", ingredientSchema);
 
-    return NextResponse.json({ recipeIngredient: { _id: result._id, ...data } }, { status: 200 });
+    const recipeCheck = await recipe.findById(data.recipeId)
+    const ingredientCheck = await ingredient.findById(data.ingredientId)
+
+    if(recipeCheck && ingredientCheck){
+        try {
+            const result = await recipeIngredient.create(data)
+            return NextResponse.json({ recipeIngredient: { _id: result._id, ...data } }, { status: 200 });
+        } catch (error: any) {
+            console.log(error.message)
+            return NextResponse.json({ message: error.message }, { status: 400 });
+        }
+    }
+    else
+    {
+        const validation: string[] = [];
+
+        recipeCheck || validation.push("Invalid recipeId.");
+        ingredientCheck || validation.push("Invalid ingredientId.");
+        return NextResponse.json({ errors: validation }, { status: 400 });
+    }
+
+
 }
 
 export async function PATCH(request: NextRequest){
-    const data = await request.json()
-
+    const data: RecipeIngredientType = await request.json();
     const client = await ClientPromise();
     const recipeIngredient = client.model("recipeIngredient", recipeIngredientSchema);
 
-    const result = await recipeIngredient.findByIdAndUpdate(data._id, data, { new: true })
+    const recipe = client.model("recipe", recipeSchema);
+    const ingredient = client.model("ingredient", ingredientSchema);
 
-    return NextResponse.json({ recipeIngredient: result }, { status: 200 });
+    const recipeCheck = await recipe.findById(data.recipeId)
+    const ingredientCheck = await ingredient.findById(data.ingredientId)
+
+    if(recipeCheck && ingredientCheck){
+        try {
+            const result = await recipeIngredient.findByIdAndUpdate(data._id, data, { new: true })
+            return NextResponse.json({ recipeIngredient: { _id: result?._id, ...data } }, { status: 200 });
+        } catch (error: any) {
+            console.log(error.message)
+            return NextResponse.json({ message: error.message }, { status: 400 });
+        }
+    }
+    else
+    {
+        const validation: string[] = [];
+
+        recipeCheck || validation.push("Invalid recipeId.");
+        ingredientCheck || validation.push("Invalid ingredientId.");
+        return NextResponse.json({ errors: validation }, { status: 400 });
+    }
 }
