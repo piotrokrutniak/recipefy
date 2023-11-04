@@ -1,9 +1,8 @@
 import { ingredientSchema } from "@/app/mongodb/models/ingredientModel";
 import { ClientPromise } from "@/app/utilities/mongodb/mongoClient";
-import { NextApiRequest } from "next";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: NextApiRequest){
+export async function GET(request: NextRequest){
     const client = await ClientPromise();
     const ingredient = client.model("ingredient", ingredientSchema);
     
@@ -17,4 +16,26 @@ export async function GET(request: NextApiRequest){
     const ingredients = await ingredient.find({name: { $regex: new RegExp(regex) }}).skip((page - 1) * limit).limit(limit).exec();
 
     return NextResponse.json({ ingredients: ingredients, resultsCount: resultsCount }, { status: 200 });
+}
+
+export async function POST(request: NextRequest){
+    const data = await request.json()
+
+    const client = await ClientPromise();
+    const ingredient = client.model("ingredient", ingredientSchema);
+
+    const result = await ingredient.create(data)
+
+    return NextResponse.json({ ingredient: { _id: result._id, ...data } }, { status: 200 });
+}
+
+export async function PATCH(request: NextRequest){
+    const data = await request.json()
+
+    const client = await ClientPromise();
+    const ingredient = client.model("ingredient", ingredientSchema);
+
+    const result = await ingredient.findByIdAndUpdate(data._id, data, { new: true })
+
+    return NextResponse.json({ ingredient: result }, { status: 200 });
 }
