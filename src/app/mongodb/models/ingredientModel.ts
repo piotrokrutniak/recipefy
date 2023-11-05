@@ -7,5 +7,9 @@ export const ingredientSchema = new Schema({
       },
     name: String,
     vegan: Boolean,
-    vegetarian: Boolean
-})
+    vegetarian: Boolean,
+  }, 
+  {
+    timestamps: true
+  }
+)
