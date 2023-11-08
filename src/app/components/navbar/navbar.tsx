@@ -27,9 +27,9 @@ export default function NavBar(){
                                 Posts
                             </Button>
                         </Link>
-                        <Link href={"/albums"}>
+                        <Link href={"/admin"}>
                             <Button className="text-white bg-transparent active:bg-slate-100/5 hover:bg-slate-200/10" onClick={undefined}>
-                                Albums
+                                Admin
                             </Button>
                         </Link>
                         <Link href={"/users"}>

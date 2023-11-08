@@ -25,7 +25,7 @@ export default function ViewIngredientPage({params}: {params: { id: string } }){
 
         GetIngredient(params.id)
             .then(x => {
-                setIngredient(x.ingredient);
+                setIngredient({...x.ingredient});
             })
             .catch((error) =>{
                 setError(error);
@@ -46,7 +46,7 @@ export default function ViewIngredientPage({params}: {params: { id: string } }){
     }, [ingredient])
 
     async function postIngredient(){
-        const result: {data: {ingredient: IngredientType}} = await axios.post('http://localhost:3000/api/ingredients/', ingredient)
+        const result: {data: {ingredient: IngredientType}} = await axios.patch('http://localhost:3000/api/ingredients/', ingredient)
 
         return result.data
     }
@@ -105,8 +105,8 @@ export default function ViewIngredientPage({params}: {params: { id: string } }){
                 </div>
                 <div className="flex flex-col sm:flex-row justify-between gap-6">
                     <div className="flex flex-col gap-6 w-36">
-                        <div className="flex justify-between place-items-center gap-4 pl-2"> Vegan <FormCheckbox value={ingredient?.vegan || false} updateValue={setVegan} defaultValue={ingredient?.vegan} /> </div>
-                        <div className="flex justify-between place-items-center gap-4 pl-2"> Vegetarian <FormCheckbox value={ingredient?.vegetarian || false} updateValue={setVegetarian} defaultValue={ingredient?.vegetarian} /> </div>
+                        <div className="flex justify-between place-items-center gap-4 pl-2"> Vegan <FormCheckbox value={ingredient.vegan} updateValue={setVegan} /> </div>
+                        <div className="flex justify-between place-items-center gap-4 pl-2"> Vegetarian <FormCheckbox value={ingredient.vegetarian} updateValue={setVegetarian} /> </div>
                     </div>
                 </div>
                 <div className="flex justify-end place-items-center mt-4">

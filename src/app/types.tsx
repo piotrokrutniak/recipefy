@@ -15,6 +15,7 @@ export type RecipeType = AuditableType & {
     rating: number,
     thumbnailUrl: string,
     imageUrl: string,
+    ingredients: IngredientType[]
 }
 
 export type IngredientType = AuditableType & {

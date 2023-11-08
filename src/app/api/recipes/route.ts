@@ -48,3 +48,18 @@ export async function PATCH(request: NextRequest){
         return NextResponse.json({ message: error.message }, { status: 400 });
     }
 }
+
+export async function PUT(request: NextRequest){
+    const data = await request.json()
+
+    const client = await ClientPromise();
+    const recipe = client.model("recipe", recipeSchema);
+
+    try {
+        const result = await recipe.findByIdAndUpdate(data._id, data, { new: true })
+        return NextResponse.json({ recipe: result }, { status: 200 });
+    } catch (error: any) {
+        console.log(error.message)
+        return NextResponse.json({ message: error.message }, { status: 400 });
+    }
+}

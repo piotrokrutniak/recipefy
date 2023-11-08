@@ -15,7 +15,7 @@ export async function GET(request: NextRequest){
     const matches = url.searchParams.get("matches") || "";
     
     const regex = matches == "" ? ".*" : `.*${matches}*.`;
-    const resultsCount = await recipeIngredient.find({desc: { $regex: new RegExp(regex) }}).count().exec();
+    const resultsCount = await recipeIngredient.find({desc: { $regex: new RegExp(regex) }}).sort({createdAt: "desc"}).count().exec();
     const recipeIngredients = await recipeIngredient.find({desc: { $regex: new RegExp(regex) }}).skip((page - 1) * limit).limit(limit).exec();
 
     return NextResponse.json({ recipeIngredients: recipeIngredients, resultsCount: resultsCount }, { status: 200 });

@@ -149,7 +149,7 @@ function ListItem({recipe}:{recipe: RecipeType}){
             setDropdownOpen(false)
           }
         }
-            document.addEventListener("mousedown", handleClickOutside);
+        document.addEventListener("mousedown", handleClickOutside);
         
         return () => {
           document.removeEventListener("mousedown", handleClickOutside);
@@ -158,7 +158,11 @@ function ListItem({recipe}:{recipe: RecipeType}){
 
     return(
         <li className={`${dropdownOpen ? "!bg-gray-600" : ""} flex relative overflow-y-visible w-full min-w-fit gap-4 place-items-center p-3 font-normal hover:!bg-gray-600 border-violet-50/40 text-white`}>
-            <span className="w-full min-w-54 cursor-pointer">{recipe.title}</span>
+            <span className="w-full min-w-54 cursor-pointer">
+                <Link href={"/admin/recipes/view/" + recipe?._id} className="flex place-items-center gap-1" target="_blank">
+                    {recipe.title}
+                </Link>
+            </span>
             <span className="w-28 shrink-0 max-xs:hidden overflow-hidden overflow-ellipsis">John Cena</span>
             <span className="w-28 shrink-0 max-xs:hidden overflow-hidden overflow-ellipsis">{recipe?.updatedAt ? ParseDate(recipe?.updatedAt) : "Unknown"}</span>
             <span className="w-28 shrink-0 max-xs:hidden">{recipe?.createdAt ? ParseDate(recipe?.createdAt) : "Unknown"}</span>

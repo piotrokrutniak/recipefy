@@ -1,4 +1,6 @@
 import { Schema } from "mongoose";
+import { IngredientType } from "@/app/types";
+import { ingredientSchema } from "./ingredientModel";
 
 export const recipeSchema = new Schema({
     _id: {
@@ -9,5 +11,10 @@ export const recipeSchema = new Schema({
     summary: String,
     rating: Number,
     thumbnailUrl: String,
-    imageUrl: String
-})
+    imageUrl: String,
+    ingredients: [ingredientSchema]
+    },
+    {
+      timestamps: true
+    }
+  )
