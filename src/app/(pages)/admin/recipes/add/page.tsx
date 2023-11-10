@@ -15,7 +15,7 @@ export default function AddRecipePage({params}: {params: { id: string } }){
     const [recipe, setRecipe] = useState<RecipeType>({
         title: "",
         summary: "",
-        desc: "",
+        recipeDetails: "",
         rating: 0,
         thumbnailUrl: "",
         imageUrl: "",
@@ -50,7 +50,7 @@ export default function AddRecipePage({params}: {params: { id: string } }){
 
     function setDesc(value: string){
         if(recipe){
-            setRecipe({...recipe, desc: value})
+            setRecipe({...recipe, recipeDetails: value})
         }
     }
 
@@ -79,7 +79,7 @@ export default function AddRecipePage({params}: {params: { id: string } }){
                 </div>
                 <FormInput className="w-full max-w" onChange={setTitle} value={recipe?.title} placeholder="Start typing..." label="Title"/>
                 <FormInput className="w-full max-w" onChange={setSummary} value={recipe?.summary} placeholder="Start typing..." label="Summary"/>
-                <TextArea onChange={setDesc} value={recipe?.desc} placeholder="Start typing..." label="Instructions"/>
+                <TextArea onChange={setDesc} value={recipe?.recipeDetails} placeholder="Start typing..." label="Instructions"/>
                 <div className="flex justify-end place-items-center mt-4">
                     <Button disabled={!validated} className="flex gap-2 place-items-center"> <FaSave className="w-5 h-5"/> Create </Button>
                 </div>

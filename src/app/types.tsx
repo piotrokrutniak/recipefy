@@ -1,5 +1,3 @@
-import { Date } from "mongoose";
-
 export type FileOrUndefined = File | undefined;
 
 interface AuditableType {
@@ -11,7 +9,7 @@ export type RecipeType = AuditableType & {
     _id?: string,
     title: string,
     summary: string,
-    desc: string,
+    recipeDetails: RecipeDetailsType,
     rating: number,
     thumbnailUrl: string,
     imageUrl: string,
@@ -31,4 +29,10 @@ export type RecipeIngredientType = AuditableType & {
     ingredientId: string,
     desc: string,
     measurements: string[],
+}
+
+export type RecipeDetailsType = AuditableType & {
+    _id?: string,
+    recipeId: string,
+    desc: string
 }

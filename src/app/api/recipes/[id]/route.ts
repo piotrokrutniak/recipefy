@@ -37,15 +37,8 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
     const data: { ingredients: RecipeIngredientType[] } = await request.json()
     const client = await ClientPromise();
     const recipeIngredient = client.model("recipeIngredient", recipeIngredientSchema);
-    const recipeIngredients: any[] = [] 
+    
     try {
-        data.ingredients.forEach(ingredient => {
-            recipeIngredients.push({
-                ...ingredient, 
-                recipeId: new Types.ObjectId(ingredient.recipeId),
-                ingredientId: new Types.ObjectId(ingredient.ingredientId),
-            })
-        });
         const result = await recipeIngredient.findOneAndReplace(data);
         console.log(result);
         return NextResponse.json({ recipeIngredients: data }, { status: 200 });

@@ -25,7 +25,7 @@ export default function TextArea({label, value = "", placeholder, className, inp
                 {label || ""}
             </div>
             <textarea onChange={(e) => handleChange(e.target.value)} value={value} placeholder={placeholder ?? ""} onBlur={() => handleBlur()} onFocus={() => handleFocus()}
-                className={`${inputClassName ?? ""} resize-none h-32 p-4 w-full rounded-lg outline-none bg-slate-500/40 focus:bg-slate-500/50 border-2 border-transparent focus:border-sky-100/50`}/>
+                className={`${inputClassName ?? ""} resize-none h-32 p-4 w-full rounded-lg outline-none bg-[#3d4756] focus:bg-[#404a5b] border-2 border-transparent focus:border-sky-100/50`}/>
         </div>
     )
 }
