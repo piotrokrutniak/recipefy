@@ -1,5 +1,4 @@
 import { Schema } from "mongoose";
-import { IngredientType } from "@/app/types";
 import { ingredientSchema } from "./ingredientModel";
 
 export const recipeSchema = new Schema({
@@ -9,6 +8,12 @@ export const recipeSchema = new Schema({
       },
     title: String,
     summary: String,
+    cookTime: {
+      prep: Number,
+      idle: Number
+    },
+    vegan: Boolean,
+    vegetarian: Boolean,
     rating: Number,
     thumbnailUrl: String,
     imageUrl: String,

@@ -2,6 +2,7 @@
 import { useEditor, EditorContent, FloatingMenu, BubbleMenu, Editor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { useState } from 'react'
+import { FaRedo, FaUndo } from 'react-icons/fa'
 
 // define your extension array
 const extensions = [
@@ -19,7 +20,7 @@ export default function Tiptap({setValue, defaultValue, className, index = -1}: 
     className? : string;
     index?: number}){
 
-  const content = defaultValue ?? "<p></p>"
+  const content = defaultValue || "<p></p>"
   console.log(defaultValue)
   const [focused, setFocused] = useState(false)
 
@@ -62,6 +63,33 @@ export default function Tiptap({setValue, defaultValue, className, index = -1}: 
               className={`${editor.isActive('strike') ? 'bg-slate-50' : 'bg-slate-50/40 text-white'} h-8 w-8 line-through font-medium p-2 rounded leading-3`}
               >
               A
+            </button>
+
+            <button
+                className={`${editor.isActive('strike') ? 'bg-slate-50' : 'bg-slate-50/40 text-white'} h-8 w-8 line-through font-medium p-2 rounded leading-3`}
+                onClick={() => editor.chain().focus().undo().run()}
+                disabled={
+                !editor.can()
+                    .chain()
+                    .focus()
+                    .undo()
+                    .run()
+                }
+            >
+                <FaUndo/>
+            </button>
+            <button
+                className={`${editor.isActive('strike') ? 'bg-slate-50' : 'bg-slate-50/40 text-white'} h-8 w-8 line-through font-medium p-2 rounded leading-3`}
+                onClick={() => editor.chain().focus().redo().run()}
+                disabled={
+                !editor.can()
+                    .chain()
+                    .focus()
+                    .redo()
+                    .run()
+                }
+            >
+                <FaRedo/>
             </button>
           </div>
         </BubbleMenu>

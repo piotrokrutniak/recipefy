@@ -13,8 +13,8 @@ export async function GET(request: NextRequest){
     const matches = url.searchParams.get("matches") || "";
     
     const regex = matches == "" ? ".*" : `.*${matches}*.`;
-    const resultsCount = await ingredient.find({name: { $regex: new RegExp(regex) }}).count().exec();
-    const ingredients = await ingredient.find({name: { $regex: new RegExp(regex) }}).sort({createdAt: "desc"}).sort({createdAt: "desc"}).skip((page - 1) * limit).limit(limit).exec();
+    const resultsCount = await ingredient.find({name: { $regex: new RegExp(regex, "i") }}).count().exec();
+    const ingredients = await ingredient.find({name: { $regex: new RegExp(regex, "i") }}).sort({createdAt: "desc"}).sort({createdAt: "desc"}).skip((page - 1) * limit).limit(limit).exec();
 
     return NextResponse.json({ ingredients: ingredients, resultsCount: resultsCount }, { status: 200 });
 }
@@ -36,7 +36,6 @@ export async function POST(request: NextRequest){
 
 export async function PATCH(request: NextRequest){
     const data: IngredientType = await request.json()
-
     const client = await ClientPromise();
     const ingredient = client.model("ingredient", ingredientSchema);
     

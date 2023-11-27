@@ -3,11 +3,12 @@ import { getIngredients } from "@/app/utilities/axios/ingredients/getIngredients
 import { useOutsideAlerter } from "@/app/utilities/hooks/useOutsideAlerter";
 import { Dispatch, SetStateAction, useState, useRef, useEffect } from "react";
 import { BsX } from "react-icons/bs";
-import { FaPlusCircle } from "react-icons/fa";
+import { FaEdit, FaPlusCircle } from "react-icons/fa";
 import Button from "../../generic/button";
 import FormInput from "../../generic/formInput";
 import FullScreenPopup from "../../popUps/schedulePopUp/fullScreenPopup";
 import { useRecipeContext } from "./recipeContext";
+import Link from "next/link";
 
 export function AddIngredient({setIngredients, id}: {setIngredients: Dispatch<SetStateAction<RecipeType>>, id: string}){
     const [resultsOpen, setResultsOpen] = useState<boolean>(false);
@@ -48,7 +49,12 @@ export function AddIngredient({setIngredients, id}: {setIngredients: Dispatch<Se
             {popupOpen &&
             <FullScreenPopup className="relative">
                 <BsX className="absolute top-2 right-2 h-10 w-10 cursor-pointer active:opacity-70 hover:fill-red-500" onClick={() => setPopupOpen(false)}/>
-                <h1 className="font-bold text-xl mb-4">Add Ingredient</h1>
+                <h1 className="font-bold text-xl mb-4 flex gap-2 place-items-center">
+                    Add Ingredient
+                    <Link href="/admin/ingredients/add/" target="_blank" className="w-fit flex gap-2 place-items-center rounded-lg font-normal text-base !p-2 bg-transparent border-2 border-solid border-white/40 hover:border-white active:opacity-80 transition-all">
+                            <FaPlusCircle/> Create
+                    </Link>
+                </h1>
                 {selectedIngredient ? 
                 <div className="flex flex-col">
                 <div className="p-2"> Selected Ingredient </div>

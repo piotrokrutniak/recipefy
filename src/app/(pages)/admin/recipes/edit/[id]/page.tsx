@@ -3,7 +3,7 @@ import Button from "@/app/components/generic/button";
 import FormInput from "@/app/components/generic/formInput";
 import { IngredientType, RecipeType } from "@/app/types";
 import { FormEvent, useEffect, useState } from "react";
-import { FaSave, FaSpinner } from "react-icons/fa";
+import { FaEye, FaSave, FaSpinner } from "react-icons/fa";
 import TextArea from "@/app/components/generic/textArea";
 import { BsX } from "react-icons/bs";
 import { GetDateTime, ParseDate, ParseDateTime } from "@/app/utilities/globalMethods";
@@ -13,15 +13,17 @@ import { getRecipe } from "@/app/utilities/axios/recipes/getRecipe";
 import { AddIngredient } from "@/app/components/functionalities/recipes/addRecipeIngredient";
 import { putRecipeDetails } from "@/app/utilities/axios/recipes/details/putDetails";
 import { getRecipeDetails } from "@/app/utilities/axios/recipes/details/getDetails";
-
-import { EditorProvider, FloatingMenu, BubbleMenu } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
 import Tiptap from "@/app/components/generic/tipTap/tipTapEditor";
+import Link from "next/link";
 
 export default function AddRecipePage({params}: {params: { id: string } }){
     const [recipe, setRecipe] = useState<RecipeType>({
         title: "",
         summary: "",
+        cookTime: {
+            prep: 0,
+            idle: 0
+        },
         recipeDetails: {
             _id: params.id,
             desc: "",
@@ -36,23 +38,24 @@ export default function AddRecipePage({params}: {params: { id: string } }){
     const [error, setError] = useState<string>();
     const [loading, setLoading] = useState<boolean>(false);
     const [validated, setValidated] = useState<boolean>(false);
+    const numRegex: RegExp = new RegExp("\d*$")
 
     useEffect(() => {
         setValidated(recipe.title.length > 0 && recipe.summary.length > 0)
         getRecipe(params.id)
             .then(x => {
-                return {...x.recipe, recipeDetails: recipe.recipeDetails }
-                //setRecipe({...tempRecipe});
+                return {
+                    ...x.recipe, recipeDetails: recipe.recipeDetails}
             })
             .then(tempRecipe => {
                 getRecipeDetails(params.id).then( x => {
-                    tempRecipe.recipeDetails = x.recipeDetails ?? tempRecipe.recipeDetails
+                    tempRecipe.recipeDetails = x.recipeDetails ?? {...tempRecipe.recipeDetails, desc: "<p></p>"}
                     setRecipe({...tempRecipe});
                 })
             })
             .catch((error) =>{
                 setError(error);
-                setLoading(false);
+                setLoading(false);  
             })
     }, []);
 
@@ -74,6 +77,18 @@ export default function AddRecipePage({params}: {params: { id: string } }){
     function setTitle(value: string){
         if(recipe){
             setRecipe({...recipe, title: value})
+        }
+    }
+
+    function setIdle(value: string){
+        if(recipe && value.match(numRegex)){
+            setRecipe({...recipe, cookTime: {...recipe.cookTime, idle: parseInt(value || "0")}})
+        }
+    }
+
+    function setPrep(value: string){
+        if(recipe && value.match(numRegex)){
+            setRecipe({...recipe, cookTime: {...recipe.cookTime, prep: parseInt(value || "0")}})
         }
     }
 
@@ -113,7 +128,12 @@ export default function AddRecipePage({params}: {params: { id: string } }){
                     {
                         // TODO: Add toggle for updated ande created date section on mobile
                     }
-                    <h1 className="text-2xl font-semibold sm:pl-4">Edit Recipe</h1>
+                    <h1 className="text-2xl flex font-semibold sm:pl-4 place-items-center gap-4">
+                            Edit Recipe 
+                            <Link href={"/admin/recipes/view/" + params.id} className="w-fit">
+                                <Button className="text-base !p-2 font-normal"> <FaEye/> Preview</Button> 
+                            </Link>
+                        </h1>
                     <div className="flex flex-col gap-2">
                         <h2 className="opacity-70">{params.id}</h2>
                         <p className="flex whitespace-nowrap justify-between sm:ml-auto mr-0 place-items-center gap-2 w-44"> <span className="font-semibold">Updated:</span> {recipe?.updatedAt ? ParseDate(recipe?.updatedAt) : "Unknown"} </p>
@@ -121,7 +141,21 @@ export default function AddRecipePage({params}: {params: { id: string } }){
                     </div>
                 </div>
                 <FormInput className="w-full max-w" onChange={setTitle} value={recipe?.title} placeholder="Start typing..." label="Title"/>
-                <FormInput className="w-full max-w" onChange={setSummary} value={recipe?.summary} placeholder="Start typing..." label="Summary"/>
+                <TextArea className="w-full max-w" onChange={setSummary} value={recipe?.summary} placeholder="Start typing..." label="Summary"/>
+                <div className="flex flex-col gap-2">
+                    <p className="flex whitespace-nowrap justify-between place-items-center gap-2 w-64"> 
+                        <span className="font-semibold"> Prep Time:</span> 
+                        <div className="flex place-items-center gap-2">
+                            <FormInput value={recipe.cookTime?.prep.toString() || "0"} onChange={setPrep} inputClassName="!w-16 text-center"/> minutes 
+                        </div>
+                    </p>
+                    <p className="flex whitespace-nowrap justify-between place-items-center gap-2 w-64"> 
+                        <span className="font-semibold"> Idle Time:</span> 
+                        <div className="flex place-items-center gap-2">
+                            <FormInput value={recipe.cookTime?.idle.toString() || "0"} onChange={setIdle} inputClassName="!w-16 text-center"/> minutes 
+                        </div>
+                    </p>
+                </div>
                 <div className="w-full relative">
                     <h2 className="text-xl font-semibold px-2 sm:px-4 py-4">Ingredients</h2>
                     <ul className="flex flex-wrap gap-2">
@@ -149,38 +183,6 @@ export default function AddRecipePage({params}: {params: { id: string } }){
     )
 }
 
-// function TipTapEditor(){
-//     const extensions = [
-//         StarterKit,
-//       ]
-      
-//       const content = '<p>Hello World!</p>'
-
-//     return(
-//         <div className="bg-[#3d4756] focus:bg-[#404a5b] p-3 rounded-lg min-h-screen-1/3 h-64">
-
-//             <EditorProvider extensions={extensions} content={content}>
-//                 <FloatingMenu>This is the floating menu</FloatingMenu>
-//                 <BubbleMenu>This is the bubble menu</BubbleMenu>
-//             </EditorProvider>
-//         </div>
-//     )
-// }
-
-// function InstructionsEditor(){
-//     const {recipe, setRecipe} = useRecipeContext();
-
-//     function setDesc(value: string){
-//         if(recipe){
-//             setRecipe({...recipe, recipeDetails: {...recipe.recipeDetails, desc: value}})
-//         }
-//     }
-
-//     return(
-//         <TextArea onChange={setDesc} value={recipe?.recipeDetails.desc ?? ""} inputClassName="min-h-screen-1/3 h-64" placeholder="Start typing..." label="Instructions"/>
-//     )
-// }
-
 function InstructionsEditor(){
     const {recipe, setRecipe} = useRecipeContext();
 
@@ -191,10 +193,9 @@ function InstructionsEditor(){
     }
 
     return(
-        recipe.recipeDetails.desc && <Tiptap setValue={setDesc} defaultValue={recipe?.recipeDetails.desc ?? ""} className="min-h-screen-1/3 h-64" />
+        recipe.recipeDetails.desc && <Tiptap setValue={setDesc} defaultValue={recipe?.recipeDetails.desc} className="min-h-screen-1/2 h-64" />
     )
 }
-
 
 function RecipeIngredient({ingredient, removeIngredient}: {
     ingredient: IngredientType; 

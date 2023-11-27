@@ -9,6 +9,12 @@ export type RecipeType = AuditableType & {
     _id?: string,
     title: string,
     summary: string,
+    cookTime: {
+        prep: number,
+        idle: number
+    },
+    vegan?: boolean,
+    vegetarian?: boolean,
     recipeDetails: RecipeDetailsType,
     rating: number,
     thumbnailUrl: string,

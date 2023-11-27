@@ -33,17 +33,17 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
 
 // TODO: Remove and move to recipe model
 
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }){
-    const data: { ingredients: RecipeIngredientType[] } = await request.json()
-    const client = await ClientPromise();
-    const recipeIngredient = client.model("recipeIngredient", recipeIngredientSchema);
+// export async function PUT(request: NextRequest, { params }: { params: { id: string } }){
+//     const data: { ingredients: RecipeIngredientType[] } = await request.json()
+//     const client = await ClientPromise();
+//     const recipeIngredient = client.model("recipeIngredient", recipeIngredientSchema);
     
-    try {
-        const result = await recipeIngredient.findOneAndReplace(data);
-        console.log(result);
-        return NextResponse.json({ recipeIngredients: data }, { status: 200 });
-    } catch (error: any) {
-        console.log(error.message)
-        return NextResponse.json({ message: error.message }, { status: 400 });
-    }
-  }
+//     try {
+//         const result = await recipeIngredient.findOneAndReplace(data);
+//         console.log(result);
+//         return NextResponse.json({ recipeIngredients: data }, { status: 200 });
+//     } catch (error: any) {
+//         console.log(error.message)
+//         return NextResponse.json({ message: error.message }, { status: 400 });
+//     }
+//   }

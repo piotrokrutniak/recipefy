@@ -5,7 +5,7 @@ import { IngredientType, RecipeIngredientType, RecipeType } from "@/app/types";
 import axios from "axios";
 import { Dispatch, FormEvent, SetStateAction, useEffect, useRef, useState } from "react";
 import { useRouter } from 'next/navigation';
-import { FaPlus, FaPlusCircle, FaSave } from "react-icons/fa";
+import { FaPlus, FaPlusCircle, FaSave, FaSpinner } from "react-icons/fa";
 import TextArea from "@/app/components/generic/textArea";
 import { useOutsideAlerter } from "@/app/utilities/hooks/useOutsideAlerter";
 import FullScreenPopup from "@/app/components/popUps/schedulePopUp/fullScreenPopup";
@@ -15,16 +15,24 @@ export default function AddRecipePage({params}: {params: { id: string } }){
     const [recipe, setRecipe] = useState<RecipeType>({
         title: "",
         summary: "",
-        recipeDetails: "",
+        cookTime: {
+            prep: 0,
+            idle: 0
+        },
+        recipeDetails: {
+            _id: params.id,
+            desc: "<p></p>",
+            recipeId: params.id,
+        },
         rating: 0,
         thumbnailUrl: "",
         imageUrl: "",
+        ingredients: []
     });
 
     const [error, setError] = useState<string>();
     const [loading, setLoading] = useState<boolean>(false);
     const [validated, setValidated] = useState<boolean>(false);
-    const [ingredients, setIngredients] = useState<RecipeIngredientType[]>([]);
     const router = useRouter();
 
     useEffect(() => {
@@ -48,14 +56,9 @@ export default function AddRecipePage({params}: {params: { id: string } }){
         }
     }
 
-    function setDesc(value: string){
-        if(recipe){
-            setRecipe({...recipe, recipeDetails: value})
-        }
-    }
-
     function submitAction(e: FormEvent){
         e.preventDefault();
+        setError(undefined);
         setLoading(true);
         if(validated){
             postRecipe()
@@ -65,7 +68,8 @@ export default function AddRecipePage({params}: {params: { id: string } }){
                     router.push("/admin/recipes/edit/" + x.recipe._id);
                 })
                 .catch((error) =>{
-                    setError(error);
+                    setError(error.message);
+                    console.log(error)
                     setLoading(false);
                 })
         }
@@ -79,9 +83,9 @@ export default function AddRecipePage({params}: {params: { id: string } }){
                 </div>
                 <FormInput className="w-full max-w" onChange={setTitle} value={recipe?.title} placeholder="Start typing..." label="Title"/>
                 <FormInput className="w-full max-w" onChange={setSummary} value={recipe?.summary} placeholder="Start typing..." label="Summary"/>
-                <TextArea onChange={setDesc} value={recipe?.recipeDetails} placeholder="Start typing..." label="Instructions"/>
-                <div className="flex justify-end place-items-center mt-4">
-                    <Button disabled={!validated} className="flex gap-2 place-items-center"> <FaSave className="w-5 h-5"/> Create </Button>
+                <div className="flex flex-col gap-2 justify-end place-items-end">
+                    <span className="text-red-500"> {error} </span>
+                    <Button disabled={!validated} className="flex gap-2 place-items-center"> {loading ? <FaSpinner className="w-5 h-5 animate-spin"/> : <FaSave className="w-5 h-5"/>} Create </Button>
                 </div>
             </form>
         </>

@@ -16,15 +16,15 @@ export default function NavBar(){
                 <div className="p-2 m-auto w-full flex max-w-7xl justify-between items-center">
                     <Link href="/">
                     <div className="flex gap-1 h-fit select-none cursor-pointer active:opacity-80 active:pb-0 
-                            border-opacity-0 border-vermilion-400 hover:border-opacity-100 border-b-0 transition-all group">
-                        <FaPaperPlane className="h-full w-6 mt-1 fill-white group-hover:fill-vermilion-400"/>
-                        <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-white hover:bg-gradient-to-r from-vermilion-400 to-vermilion-500 transition-all">Send.it</h1>
+                            border-opacity-0 border-indigo-400 hover:border-opacity-100 border-b-0 transition-all group">
+                        <FaPizzaSlice className="h-full w-6 mt-1 fill-white group-hover:fill-indigo-400"/>
+                        <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-white group-hover:bg-gradient-to-r from-indigo-400 to-indigo-500 transition-all">Recipefy</h1>
                     </div>
                     </Link>
                     <div className="hidden text-lg gap-4 md:flex">
-                        <Link href={"/"}>
+                        <Link href={"/recipes"}>
                             <Button className="text-white bg-transparent active:bg-slate-100/5 hover:bg-slate-200/10" onClick={undefined}>
-                                Posts
+                                Recipes
                             </Button>
                         </Link>
                         <Link href={"/admin"}>
@@ -32,9 +32,14 @@ export default function NavBar(){
                                 Admin
                             </Button>
                         </Link>
-                        <Link href={"/users"}>
-                            <Button className="text-white bg-transparent active:bg-slate-100/5 hover:bg-slate-200/10" onClick={undefined}>
-                                Users
+                        <Link href={"/signin"}>
+                            <Button className="text-white bg-indigo-500 bg-opacity-80 active:bg-opacity-80 hover:bg-opacity-100" onClick={undefined}>
+                                Sign In
+                            </Button>
+                        </Link>
+                        <Link href={"/signup"}>
+                            <Button className="text-white border-white/60 border-2 border-solid bg-transparent active:bg-slate-100/5 hover:bg-slate-100/10 hover:border-indigo-200/60" onClick={undefined}>
+                                Sign Up
                             </Button>
                         </Link>
                     </div>

@@ -20,46 +20,52 @@ export async function GET(request: NextRequest){
 }
 
 export async function POST(request: NextRequest){
-    const data: RecipeType = await request.json()
-
+    const data: RecipeType = await request.json();
     const client = await ClientPromise();
     const recipe = client.model("recipe", recipeSchema);
 
+    data.vegan = data.ingredients.find(x => !x.vegan) === undefined;
+    data.vegetarian = data.ingredients.find(x => !x.vegetarian) === undefined;
+
     try {
-        const result = await recipe.create(data)
+        const result = await recipe.create(data);
         return NextResponse.json({recipe: { _id: result._id, ...data} }, { status: 200 });
     } catch (error: any) {
-        console.log(error.message)
+        console.log(error.message);
         return NextResponse.json({ message: error.message }, { status: 400 });
     }
 }
 
 export async function PATCH(request: NextRequest){
-    const data = await request.json()
-
+    const data: RecipeType = await request.json();
     const client = await ClientPromise();
     const recipe = client.model("recipe", recipeSchema);
 
+    data.vegan = data.ingredients.find(x => !x.vegan) === undefined;
+    data.vegetarian = data.ingredients.find(x => !x.vegetarian) === undefined;
+
     try {
-        const result = await recipe.findByIdAndUpdate(data._id, data, { new: true })
+        const result = await recipe.findByIdAndUpdate(data._id, data, { new: true });
         return NextResponse.json({ recipe: result }, { status: 200 });
     } catch (error: any) {
-        console.log(error.message)
+        console.log(error.message);
         return NextResponse.json({ message: error.message }, { status: 400 });
     }
 }
 
 export async function PUT(request: NextRequest){
-    const data = await request.json()
-
+    const data: RecipeType = await request.json();
     const client = await ClientPromise();
     const recipe = client.model("recipe", recipeSchema);
 
+    data.vegan = data.ingredients.find(x => !x.vegan) === undefined;
+    data.vegetarian = data.ingredients.find(x => !x.vegetarian) === undefined;
+
     try {
-        const result = await recipe.findByIdAndUpdate(data._id, data, { new: true })
+        const result = await recipe.findByIdAndUpdate(data._id, data, { new: true });
         return NextResponse.json({ recipe: result }, { status: 200 });
     } catch (error: any) {
-        console.log(error.message)
+        console.log(error.message);
         return NextResponse.json({ message: error.message }, { status: 400 });
     }
 }
