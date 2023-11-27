@@ -12,11 +12,7 @@ export default function RatingActive({ rating = 0, starClassName, className = ""
 
     useEffect(() => {
         setUsedRating(tempRating ?? rating)
-        console.log(usedRating)
-        
         processRating(usedRating)
-        
-        
     }, [tempRating, rating])
 
     processRating(usedRating)
