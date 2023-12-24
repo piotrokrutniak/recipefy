@@ -11,8 +11,11 @@ import { getRecipeDetails } from "@/app/utilities/axios/recipes/details/getDetai
 import parse from 'html-react-parser';
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 import { Cookies } from "react-cookie";
-import Rating, { RatingPanel } from "@/app/components/generic/rating";
+import Rating from "@/app/components/generic/rating";
 import RatingActive from "@/app/components/generic/ratingActive";
+import FormInput from "@/app/components/generic/formInput";
+import TextArea from "@/app/components/generic/textArea";
+import Button from "@/app/components/generic/button";
 
 export default function ViewRecipePage({params}: {params: { id: string } }){
     const [recipe, setRecipe] = useState<RecipeType>({
@@ -117,9 +120,8 @@ export default function ViewRecipePage({params}: {params: { id: string } }){
     }
 
     return( 
-        <>
         <RecipeContext.Provider value={{recipe: recipe, setRecipe: setRecipe}}>
-            <main id="admin-recipe-view-section" className='max-w-4xl bg-slate-500/30 mx-auto w-full max-sm:p-4 p-8 rounded-xl shadow-md shadow-black/40 flex flex-col gap-6' onSubmit={(e) => submitAction(e)}>
+            <section id="admin-recipe-view-section" className='max-w-4xl bg-slate-500/30 mx-auto w-full max-sm:p-4 p-8 rounded-xl shadow-md shadow-black/40 flex flex-col gap-6' onSubmit={(e) => submitAction(e)}>
                 <section className="flex flex-col gap-8">
                     <div className="flex justify-between gap-8">
                         {loading ?
@@ -160,7 +162,7 @@ export default function ViewRecipePage({params}: {params: { id: string } }){
                 </section>
                 <section>
                     <div className="w-full relative">
-                        <h2 className="text-xl font-semibold px-2 sm:px-4 py-4">Składniki</h2>
+                        <h2 className="text-xl font-semibold py-4">Składniki</h2>
 
                         <ul className="flex flex-wrap gap-2">
                         {loading ?
@@ -174,7 +176,7 @@ export default function ViewRecipePage({params}: {params: { id: string } }){
                 </section>
                 <section>
                 <div className="w-full relative">
-                        <h2 className="text-xl font-semibold px-2 sm:px-4 py-4">Przepis</h2>
+                        <h2 className="text-xl font-semibold px-2 py-4">Przepis</h2>
 
                         <div className="flex flex-wrap gap-2">
                         {loading ?
@@ -184,40 +186,42 @@ export default function ViewRecipePage({params}: {params: { id: string } }){
                         </div>
                     </div>
                 </section>
-                <section id="review-section">
-                    <h2 className="text-xl font-semibold px-2 sm:px-4 py-4">Oceny</h2>
-                    <div className="flex justify-between">
-                        <div className="flex flex-col gap-4">
-                            <span className="flex gap-4">
-                                <Rating rating={5}/> 0 ocen
-                            </span>
-                            <span className="flex gap-4">
-                                <Rating rating={4}/> 0 ocen
-                            </span>
-                            <span className="flex gap-4">
-                                <Rating rating={3}/> 0 ocen
-                            </span>
-                            <span className="flex gap-4">
-                                <Rating rating={2}/> 0 ocen
-                            </span>
-                            <span className="flex gap-4">
-                                <Rating rating={1}/> 0 ocen
-                            </span>
+            </section>
+            <section id="admin-recipe-view-section" className='max-w-4xl bg-slate-500/30 mx-auto w-full max-sm:p-4 p-8 rounded-xl shadow-md shadow-black/40 flex flex-col gap-6' onSubmit={(e) => submitAction(e)}>
+                <section id="review-section" className="relative">
+                    <div className="flex justify-between gap-16">
+                    <div className="w-fit shrink-0">
+                            <h2 className="text-xl font-semibold px-2 sm:px-4 py-4">Oceny</h2>
+                            <div className="flex flex-col gap-4">
+                                <span className="flex gap-4">
+                                    <Rating rating={5}/> 0 ocen
+                                </span>
+                                <span className="flex gap-4">
+                                    <Rating rating={4}/> 0 ocen
+                                </span>
+                                <span className="flex gap-4">
+                                    <Rating rating={3}/> 0 ocen
+                                </span>
+                                <span className="flex gap-4">
+                                    <Rating rating={2}/> 0 ocen
+                                </span>
+                                <span className="flex gap-4">
+                                    <Rating rating={1}/> 0 ocen
+                                </span>
+                            </div>
                         </div>
-
-                        <div className="flex flex-col gap-2">
-                            <h3 className="text-lg font-semibold">Oceń przepis</h3>
-                            <RatingActive starClassName="w-7 h-7 cursor-pointer"/>
-                        </div>
+                        {
+                            // Extract to another component
+                        }
+                        <RatingSection/>
                     </div>
                 </section>
                 <section id="comment-section">
                     <h2 className="text-xl font-semibold px-2 sm:px-4 py-4"> Komentarze </h2>
                     <p className='opacity-80'> Brak dodanych komentarzy. </p>
                 </section>
-            </main>
+            </section>
         </RecipeContext.Provider>
-        </>
     )
 }
 
@@ -230,3 +234,25 @@ function RecipeIngredientView({ingredient, removeIngredient}: {
     )
 }
 
+function RatingSection(){
+    const [review, setReview] = useState({
+        text: "",
+        rating: 0,
+        userEmail: "unauthenticated@test.com"
+    })
+
+    function setText(value: string){
+        setReview({...review, text: value})
+    }
+
+    return(
+        <div className="w-full flex flex-col gap-4 relative">
+            <div className="flex justify-between gap-2 pt-4 ">
+                <h3 className="text-lg font-semibold">Oceń przepis</h3>
+                <RatingActive starClassName="w-6 h-6 cursor-pointer"/>
+            </div>
+            <TextArea inputClassName="!h-full" className="w-full max-w h-full" value={review?.text} onChange={setText} placeholder="Napisz co sądzisz o tym przepisie..."/>
+            <Button className="w-fit place-self-end bg-indigo-500">Wyślij</Button>
+        </div>
+    )
+}

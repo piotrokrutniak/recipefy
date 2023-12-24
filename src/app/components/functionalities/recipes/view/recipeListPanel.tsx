@@ -57,7 +57,7 @@ export default function RecipeListItem({ recipe, favRecipes, setFavRecipes }:
             <div className="md:h-full h-screen-1/3 w-auto aspect-square bg-white/20 rounded-lg shadow-md shrink-0 cursor-pointer">
                 
             </div>
-            <div className="flex flex-col justify-between gap-3 sm:pt-4 overflow-hidden">
+            <div className="flex flex-col justify-between gap-3 sm:pt-4 overflow-hidden w-full">
                 <div className="flex flex-col gap-2 md:gap-4 h-max overflow-hidden">
                     <div className="flex flex-col md:flex-row justify-between md:place-items-center gap-1 md:gap-4 w-full">
                         <Link href={"/recipes/" + recipe._id} className="shrink-1 truncate flex place-items-center w-full gap-2 hover:text-indigo-400 transition-all duration-75">

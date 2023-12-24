@@ -4,22 +4,12 @@ import { LoadingPanel } from "@/app/components/generic/loadingPanel";
 import { GeneratePages, PaginationPanel } from "@/app/components/generic/paginationPanel";
 import FullScreenPopup from "@/app/components/popUps/schedulePopUp/fullScreenPopup";
 import { IngredientType } from "@/app/types";
+import { DeleteActionContext, useDeleteActionContext } from "@/app/utilities/contexts/ingredients/DeleteActionContext";
 import { ParseDate } from "@/app/utilities/globalMethods";
 import axios from "axios";
 import Link from "next/link";
 import { Dispatch,  SetStateAction, createContext, useContext, useEffect, useRef, useState } from "react";
 import { FaCheckCircle, FaEdit, FaEllipsisH, FaEye, FaTrash } from "react-icons/fa";
-
-const DeleteActionContext = createContext<((x: string) => void) | undefined>(undefined)
-
-export function useDeleteActionContext(){
-    const setDeletePopUp = useContext(DeleteActionContext)
-    if(setDeletePopUp === undefined){
-        throw new Error("useDeleteActionContext must be used with DeleteActionContext.")
-    }
-
-    return setDeletePopUp
-}
 
 export default function Ingredients(){ 
     const [ingredients, setIngredients] = useState<IngredientType[]>([])
