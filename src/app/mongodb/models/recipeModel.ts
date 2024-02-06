@@ -1,11 +1,12 @@
 import { Schema } from "mongoose";
 import { ingredientSchema } from "./ingredientModel";
 
-export const recipeSchema = new Schema({
+export const recipeSchema = new Schema(
+  {
     _id: {
-        type: Schema.Types.ObjectId,
-        auto: true,
-      },
+      type: Schema.Types.ObjectId,
+      auto: true
+    },
     title: String,
     summary: String,
     cookTime: {
@@ -18,8 +19,8 @@ export const recipeSchema = new Schema({
     thumbnailUrl: String,
     imageUrl: String,
     ingredients: [ingredientSchema]
-    },
-    {
-      timestamps: true
-    }
-  )
+  },
+  {
+    timestamps: true
+  }
+);

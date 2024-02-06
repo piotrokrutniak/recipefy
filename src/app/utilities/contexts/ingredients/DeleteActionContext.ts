@@ -1,12 +1,12 @@
-import { createContext, useContext } from "react"
+import { createContext, useContext } from "react";
 
-export const DeleteActionContext = createContext<((x: string) => void) | undefined>(undefined)
+export const DeleteActionContext = createContext<((x: string) => void) | undefined>(undefined);
 
-export function useDeleteActionContext(){
-    const setDeletePopUp = useContext(DeleteActionContext)
-    if(setDeletePopUp === undefined){
-        throw new Error("useDeleteActionContext must be used with DeleteActionContext.")
-    }
+export function useDeleteActionContext() {
+  const setDeletePopUp = useContext(DeleteActionContext);
+  if (setDeletePopUp === undefined) {
+    throw new Error("useDeleteActionContext must be used with DeleteActionContext.");
+  }
 
-    return setDeletePopUp
+  return setDeletePopUp;
 }
