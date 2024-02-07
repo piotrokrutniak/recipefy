@@ -16,7 +16,7 @@ export default function ViewIngredientPage({ params }: { params: { id: string } 
   useEffect(() => {
     setLoading(true);
 
-    GetIngredient(params.id)
+    getIngredient(params.id)
       .then((x) => {
         setIngredient(x.ingredient);
       })
@@ -26,10 +26,11 @@ export default function ViewIngredientPage({ params }: { params: { id: string } 
       });
   }, []);
 
-  async function GetIngredient(id: string) {
+  async function getIngredient(id: string) {
+    const baseUrl = window.location.origin;
     const result = await axios({
       method: "get",
-      url: "http://localhost:3000/api/ingredients/" + id
+      url: `${baseUrl}/api/ingredients/` + id
     });
     return result.data;
   }

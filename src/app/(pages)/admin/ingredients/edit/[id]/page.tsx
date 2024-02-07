@@ -34,9 +34,10 @@ export default function ViewIngredientPage({ params }: { params: { id: string } 
   }, []);
 
   async function GetIngredient(id: string) {
+    const baseUrl = window.location.origin;
     const result = await axios({
       method: "get",
-      url: "http://localhost:3000/api/ingredients/" + id
+      url: `${baseUrl}/api/ingredients/` + id
     });
     return result.data;
   }

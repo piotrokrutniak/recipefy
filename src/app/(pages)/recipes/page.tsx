@@ -66,9 +66,10 @@ export default function Recipes() {
   }, [cookies, favRecipes]);
 
   async function DeleteRecipe(id: string) {
+    const baseUrl = window.location.origin;
     const result = await axios({
       method: "delete",
-      url: "http://localhost:3000/api/recipes/" + id
+      url: `${baseUrl}/api/recipes/` + id
     });
     setDeletePopUp(false);
 

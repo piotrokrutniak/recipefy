@@ -1,9 +1,10 @@
 import axios from "axios";
 
 export async function getIngredients(page: number, matches: string) {
+  const baseUrl = window.location.origin;
   const result = await axios({
     method: "get",
-    url: "http://localhost:3000/api/ingredients",
+    url: `${baseUrl}/api/ingredients`,
     params: {
       page: page ?? 1,
       matches: matches

@@ -39,7 +39,7 @@ export default function Ingredients() {
   useEffect(() => {
     setLoading(true);
     setError("");
-    GetPosts(page)
+    getIngredients(page)
       .then((x) => {
         setIngredients([...x.ingredients]);
         setLoading(false);
@@ -51,10 +51,11 @@ export default function Ingredients() {
       });
   }, [page]);
 
-  async function GetPosts(page: number) {
+  async function getIngredients(page: number) {
+    const baseUrl = window.location.origin;
     const result = await axios({
       method: "get",
-      url: "http://localhost:3000/api/ingredients",
+      url: `${baseUrl}/api/ingredients`,
       params: {
         page: page ?? 1
       }
@@ -63,14 +64,15 @@ export default function Ingredients() {
     return result.data;
   }
 
-  async function DeleteIngredient(id: string) {
+  async function deleteIngredient(id: string) {
+    const baseUrl = window.location.origin;
     const result = await axios({
       method: "delete",
-      url: "http://localhost:3000/api/ingredients/" + id
+      url: `${baseUrl}/api/ingredients/` + id
     });
     setDeletePopUp(false);
 
-    GetPosts(page)
+    getIngredients(page)
       .then((x) => {
         setIngredients([...x.ingredients]);
         setLoading(false);
@@ -131,7 +133,7 @@ export default function Ingredients() {
           <FullScreenPopup>
             <h2 className="text-white">Are you sure you want to delete this ingredient?</h2>
             <div className="flex justify-end gap-2 text-white mt-4">
-              <Button className="bg-red-600" onClick={() => DeleteIngredient(selectedId)}>
+              <Button className="bg-red-600" onClick={() => deleteIngredient(selectedId)}>
                 Delete
               </Button>
               <Button

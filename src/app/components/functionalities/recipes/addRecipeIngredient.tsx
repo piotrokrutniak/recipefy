@@ -3,7 +3,7 @@ import { getIngredients } from "@/app/utilities/axios/ingredients/getIngredients
 import { useOutsideAlerter } from "@/app/utilities/hooks/useOutsideAlerter";
 import { Dispatch, SetStateAction, useState, useRef, useEffect } from "react";
 import { BsX } from "react-icons/bs";
-import { FaEdit, FaPlusCircle } from "react-icons/fa";
+import { FaPlusCircle } from "react-icons/fa";
 import Button from "../../generic/button";
 import FormInput from "../../generic/formInput";
 import FullScreenPopup from "../../popUps/schedulePopUp/fullScreenPopup";
@@ -30,7 +30,6 @@ export function AddIngredient({
 
   useEffect(() => {
     getIngredients(1, searchString).then((x) => {
-      console.log(x);
       setResults([...x.ingredients]);
     });
   }, [searchString]);

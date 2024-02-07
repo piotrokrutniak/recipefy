@@ -40,8 +40,9 @@ export default function AddRecipePage({ params }: { params: { id: string } }) {
   }, [recipe]);
 
   async function postRecipe() {
+    const baseUrl = window.location.origin;
     const result: { data: { recipe: RecipeType } } = await axios.post(
-      "http://localhost:3000/api/recipes/",
+      `${baseUrl}/api/recipes/`,
       recipe
     );
 
