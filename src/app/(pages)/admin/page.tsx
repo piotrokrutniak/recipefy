@@ -6,7 +6,7 @@ export default function AdminPage() {
     <>
       <section
         id="top-picks-section"
-        className="max-w-7xl min-h-128 bg-slate-500/30 mx-auto w-full p-4 md:p-8 rounded-xl shadow-md shadow-black/40 flex-col"
+        className="max-w-7xl min-h-full bg-slate-500/30 mx-auto w-full p-4 md:p-8 rounded-xl shadow-md shadow-black/40 flex-col"
       >
         <div className="grid gap-4 grid-auto-fit-md">
           <MenuPanel text="Recipes" href="/admin/recipes" />

@@ -19,11 +19,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <UserProvider>
       <html lang="pl" className="scroll-smooth">
         <body className={`${inter.className} bg-black text-white`}>
-          <main className="min-h-screen min-w-mobile flex gap-2 flex-col pb-4 overflow-x-clip bg-slate-800/25">
+          <main className="flex flex-col min-h-screen min-w-mobile pb-4 gap-4 overflow-x-clip bg-slate-800/25">
             <NavBar />
-            {children}
+            <div className="flex flex-col gap-4 flex-1 relative">
+              {children}
+            </div>
+            <Footbar />
           </main>
-          <Footbar />
         </body>
       </html>
     </UserProvider>

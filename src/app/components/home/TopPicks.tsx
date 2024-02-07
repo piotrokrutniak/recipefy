@@ -21,7 +21,7 @@ export const TopPicks = () => {
 
   return (
     <div className="text-white rounded-lg overflow-clip">
-      {recipes.length &&
+      {recipes.length ?
       <Carousel className="w-full h-screen-2/3" autoPlay infiniteLoop showThumbs={false}>
         {recipes.map((recipe) => (
           <div key={recipe._id} className="relative w-full h-screen-2/3">
@@ -46,7 +46,10 @@ export const TopPicks = () => {
             </div>
           </div>
         ))}
-      </Carousel>}
+      </Carousel> : 
+      <div className="w-full h-screen-2/3 flex items-center justify-center">
+        <p>There are no recipes to display</p>
+      </div>}
     </div>
   );
 };

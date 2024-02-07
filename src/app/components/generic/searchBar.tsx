@@ -5,8 +5,7 @@ import { FaSearch, FaAngleDown } from "react-icons/fa";
 
 export default function SearchBar() {
   const [dropdownOpened, setDropdownOpened] = useState(false);
-  const [chosenOption, setChosenOption] = useState("");
-
+  const [value, setValue] = useState("");
   function ToggleDropdownOpened() {
     setDropdownOpened((x) => !x);
   }
@@ -18,62 +17,15 @@ export default function SearchBar() {
         type="text"
         placeholder="Szukaj przepisów"
         className="bg-transparent p-5 pl-0 text-white w-full outline-none text-lg border-none"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter') {
+          const baseUrl = window.location.origin;
+          window.location.href = `${baseUrl}/recipes?matches=${value}`;
+        }
+      }}
       />
-
-      {/* <div className="flex text-slate-50 cursor-pointer border-l-2 pl-3 border-white/20 relative">
-        <div
-          className="flex opacity-40 hover:opacity-60 active:opacity-40 transition-opacity"
-          onClick={() => ToggleDropdownOpened()}
-        >
-          {chosenOption || "Category"}
-          <FaAngleDown
-            className={`${dropdownOpened ? "rotate-180" : ""} fill-slate-50 w-10 h-6 transition-all`}
-          />
-        </div>
-
-        <div
-          className={`${dropdownOpened ? "block" : "hidden"} absolute top-14 right-0 h-44 w-56 bg-black rounded-lg overflow-hidden`}
-        >
-          <div className="w-full h-full bg-slate-500/50 overflow-y-auto pt-0">
-            <DropdownOption
-              toggleDropdownOpened={ToggleDropdownOpened}
-              setChosenOption={setChosenOption}
-              chosenOption={chosenOption}
-              text="Breakfast"
-            />
-            <DropdownOption
-              toggleDropdownOpened={ToggleDropdownOpened}
-              setChosenOption={setChosenOption}
-              chosenOption={chosenOption}
-              text="Lunch"
-            />
-            <DropdownOption
-              toggleDropdownOpened={ToggleDropdownOpened}
-              setChosenOption={setChosenOption}
-              chosenOption={chosenOption}
-              text="Dessert"
-            />
-            <DropdownOption
-              toggleDropdownOpened={ToggleDropdownOpened}
-              setChosenOption={setChosenOption}
-              chosenOption={chosenOption}
-              text="Dinner"
-            />
-            <DropdownOption
-              toggleDropdownOpened={ToggleDropdownOpened}
-              setChosenOption={setChosenOption}
-              chosenOption={chosenOption}
-              text="Appetizer"
-            />
-            <DropdownOption
-              toggleDropdownOpened={ToggleDropdownOpened}
-              setChosenOption={setChosenOption}
-              chosenOption={chosenOption}
-              text="Pastries"
-            />
-          </div>
-        </div>
-      </div> */}
     </div>
   );
 }
