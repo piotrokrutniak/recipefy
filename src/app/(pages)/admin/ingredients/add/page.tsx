@@ -7,7 +7,6 @@ import axios from "axios";
 import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { FaSave } from "react-icons/fa";
-import { useTranslation } from "next-i18next";
 
 export default function ViewIngredientPage({
   params,
@@ -23,7 +22,6 @@ export default function ViewIngredientPage({
   const [loading, setLoading] = useState<boolean>(false);
   const [validated, setValidated] = useState<boolean>(false);
   const router = useRouter();
-  const { t } = useTranslation("admin");
 
   useEffect(() => {
     setValidated(ingredient.name.length > 0);
