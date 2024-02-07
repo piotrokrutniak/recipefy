@@ -47,8 +47,9 @@ export default function ViewIngredientPage({ params }: { params: { id: string } 
   }, [ingredient]);
 
   async function postIngredient() {
+    const baseUrl = window.location.origin;
     const result: { data: { ingredient: IngredientType } } = await axios.patch(
-      "http://localhost:3000/api/ingredients/",
+      `${baseUrl}/api/ingredients/`,
       ingredient
     );
 

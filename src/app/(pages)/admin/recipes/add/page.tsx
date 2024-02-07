@@ -1,15 +1,12 @@
 "use client";
 import Button from "@/app/components/generic/button";
 import FormInput from "@/app/components/generic/formInput";
-import { IngredientType, RecipeIngredientType, RecipeType } from "@/app/types";
+import { RecipeType } from "@/app/types";
 import axios from "axios";
-import { Dispatch, FormEvent, SetStateAction, useEffect, useRef, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { FaPlus, FaPlusCircle, FaSave, FaSpinner } from "react-icons/fa";
+import { FaSave, FaSpinner } from "react-icons/fa";
 import TextArea from "@/app/components/generic/textArea";
-import { useOutsideAlerter } from "@/app/utilities/hooks/useOutsideAlerter";
-import FullScreenPopup from "@/app/components/popUps/schedulePopUp/fullScreenPopup";
-import { BsX } from "react-icons/bs";
 
 export default function AddRecipePage({ params }: { params: { id: string } }) {
   const [recipe, setRecipe] = useState<RecipeType>({

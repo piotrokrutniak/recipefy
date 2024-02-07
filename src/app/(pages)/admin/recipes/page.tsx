@@ -4,6 +4,7 @@ import { LoadingPanel } from "@/app/components/generic/loadingPanel";
 import { GeneratePages, PaginationPanel } from "@/app/components/generic/paginationPanel";
 import FullScreenPopup from "@/app/components/popUps/schedulePopUp/fullScreenPopup";
 import { RecipeType } from "@/app/types";
+import { GetRecipes } from "@/app/utilities/axios/recipes/getRecipes";
 import {
   DeleteActionContext,
   useDeleteActionContext
@@ -39,7 +40,7 @@ export default function Recipes() {
   useEffect(() => {
     setLoading(true);
     setError("");
-    GetPosts(page)
+    GetRecipes(page)
       .then((x) => {
         setRecipes([...x.recipes]);
         setLoading(false);
@@ -51,26 +52,15 @@ export default function Recipes() {
       });
   }, [page]);
 
-  async function GetPosts(page: number) {
-    const result = await axios({
-      method: "get",
-      url: "http://localhost:3000/api/recipes",
-      params: {
-        page: page ?? 1
-      }
-    });
-
-    return result.data;
-  }
-
   async function DeleteRecipe(id: string) {
+    const baseUrl = window.location.origin;
     const result = await axios({
       method: "delete",
-      url: "http://localhost:3000/api/recipes/" + id
+      url: `${baseUrl}/api/recipes/${id}`
     });
     setDeletePopUp(false);
 
-    GetPosts(page)
+    GetRecipes(page)
       .then((x) => {
         setRecipes([...x.recipes]);
         setLoading(false);
