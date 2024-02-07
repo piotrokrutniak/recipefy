@@ -25,7 +25,6 @@ const SignInPage: React.FC = () => {
   const onSubmit = (data: SignInFormInputs) => {
     if(data.email == "superadmin@gmail.com" && data.password == "123Pa$$word!") {
       signIn(data);
-      console.log(user)
     }
   };
 

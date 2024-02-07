@@ -18,6 +18,7 @@ import { putRecipeDetails } from "@/app/utilities/axios/recipes/details/putDetai
 import { getRecipeDetails } from "@/app/utilities/axios/recipes/details/getDetails";
 import Tiptap from "@/app/components/generic/tipTap/tipTapEditor";
 import Link from "next/link";
+import axios from "axios";
 
 export default function AddRecipePage({ params }: { params: { id: string } }) {
   const [recipe, setRecipe] = useState<RecipeType>({
@@ -73,7 +74,7 @@ export default function AddRecipePage({ params }: { params: { id: string } }) {
 
   useEffect(() => {
     setValidated(recipe.title.length > 0 && recipe.summary.length > 0);
-  }, [loading]);
+  }, [loading, recipe.summary.length, recipe.title.length]);
 
   function setSummary(value: string) {
     if (recipe) {
@@ -105,9 +106,6 @@ export default function AddRecipePage({ params }: { params: { id: string } }) {
     setError(undefined);
     if (validated) {
       patchRecipe(recipe)
-        .then((x) => {
-          console.log(x);
-        })
         .then(() => {
           putRecipeDetails(recipe.recipeDetails);
         })
@@ -137,7 +135,7 @@ export default function AddRecipePage({ params }: { params: { id: string } }) {
         >
           <div className="flex flex-col sm:flex-row justify-between sm:place-items-start gap-4">
             {
-              // TODO: Add toggle for updated ande created date section on mobile
+              // TODO: Add toggle for updated and created date section on mobile
             }
             <h1 className="text-2xl flex font-semibold sm:pl-4 place-items-center gap-4">
               Edit Recipe
@@ -169,6 +167,31 @@ export default function AddRecipePage({ params }: { params: { id: string } }) {
             placeholder="Start typing..."
             label="Title"
           />
+          <div 
+            className="w-full h-screen-1/3 bg-gray-200 cursor-pointer rounded-lg flex justify-center items-center"
+            onClick={() => document.getElementById('imageUpload')?.click()}
+            style={{ backgroundImage: `url(${recipe?.imageUrl})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+          >
+            {!recipe?.imageUrl && <p>Select Image</p>}
+            <input 
+              type="file" 
+              id="imageUpload" 
+              accept="image/*" 
+              style={{ display: 'none' }} 
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) {
+                  uploadImageToCloudinary(file)
+                    .then((imageUrl) => {
+                      setRecipe({ ...recipe, imageUrl: imageUrl });
+                    })
+                    .catch((error) => {
+                      console.error("Upload failed", error);
+                    });
+                }
+              }}
+            />
+          </div>
           <TextArea
             className="w-full max-w"
             onChange={setSummary}
@@ -284,4 +307,18 @@ function RecipeIngredient({
       />
     </li>
   );
+}
+
+async function uploadImageToCloudinary(file: File) {
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", "default"); // Replace 'default' with your Cloudinary upload preset
+
+  try {
+    const response = await axios.post("https://api.cloudinary.com/v1_1/recipefy/image/upload", formData); // Replace 'recipefy' with your Cloudinary cloud name
+    return response.data.url; // This is the URL of the uploaded image
+  } catch (error) {
+    console.error("Error uploading image to Cloudinary", error);
+    throw new Error("Failed to upload image");
+  }
 }

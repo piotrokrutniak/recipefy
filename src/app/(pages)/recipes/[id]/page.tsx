@@ -1,7 +1,7 @@
 "use client";
 import { IngredientType, RecipeType } from "@/app/types";
-import { FormEvent, useEffect, useState } from "react";
-import { FaBan, FaEdit, FaEgg, FaFish, FaLeaf } from "react-icons/fa";
+import { FormEvent, useEffect, useMemo, useState } from "react";
+import { FaBan, FaEgg, FaFish, FaLeaf } from "react-icons/fa";
 import { GetDateTime, ParseDate } from "@/app/utilities/globalMethods";
 import { RecipeContext } from "@/app/components/functionalities/recipes/recipeContext";
 import { patchRecipe } from "@/app/utilities/axios/recipes/patchRecipe";
@@ -16,6 +16,7 @@ import RatingActive from "@/app/components/generic/ratingActive";
 import FormInput from "@/app/components/generic/formInput";
 import TextArea from "@/app/components/generic/textArea";
 import Button from "@/app/components/generic/button";
+import Image from "next/image";
 
 export default function ViewRecipePage({ params }: { params: { id: string } }) {
   const [recipe, setRecipe] = useState<RecipeType>({
@@ -36,7 +37,7 @@ export default function ViewRecipePage({ params }: { params: { id: string } }) {
     ingredients: []
   });
 
-  const cookies = new Cookies();
+  const cookies = useMemo(() => new Cookies(), []);
   const [error, setError] = useState<string>();
   const [loading, setLoading] = useState<boolean>(true);
   const [validated, setValidated] = useState<boolean>(false);
@@ -66,10 +67,9 @@ export default function ViewRecipePage({ params }: { params: { id: string } }) {
   }, []);
 
   useEffect(() => {
-    console.log(favRecipes);
     setSaved(favRecipes.findIndex((x) => x == params.id) > -1);
     cookies.set("favoriteRecipes", favRecipes);
-  }, [favRecipes]);
+  }, [cookies, favRecipes, params.id]);
 
   function toggleSaved() {
     if (recipe._id) {
@@ -77,13 +77,11 @@ export default function ViewRecipePage({ params }: { params: { id: string } }) {
       const temp = favRecipes;
       if (index > -1) {
         setSaved(false);
-        console.log("removed " + recipe._id);
         temp.splice(index, 1);
 
         setFavRecipes([...temp]);
       } else {
         setSaved(true);
-        console.log("added " + recipe._id);
         temp.push(recipe._id);
         setFavRecipes([...temp]);
       }
@@ -96,9 +94,6 @@ export default function ViewRecipePage({ params }: { params: { id: string } }) {
     setError(undefined);
     if (validated) {
       patchRecipe(recipe)
-        .then((x) => {
-          console.log(x);
-        })
         .then(() => {
           putRecipeDetails(recipe.recipeDetails);
         })
@@ -136,13 +131,12 @@ export default function ViewRecipePage({ params }: { params: { id: string } }) {
                 <div className="flex">
                   {recipe.vegetarian && (
                     <span className="relative w-7 h-7 pt-1 shrink-0">
-                      <FaFish className="absolute p-1" />{" "}
-                      <FaBan className="absolute fill-red-500" />{" "}
+                      <FaLeaf className="absolute fill-green-500" />
                     </span>
                   )}
                   {recipe.vegan && (
                     <span className="relative w-7 h-7 pt-1 shrink-0">
-                      <FaEgg className="absolute p-1" /> <FaBan className="absolute fill-red-500" />{" "}
+                      <FaLeaf className="absolute fill-green-500" />
                     </span>
                   )}
                 </div>
@@ -160,6 +154,9 @@ export default function ViewRecipePage({ params }: { params: { id: string } }) {
                 onClick={() => toggleSaved()}
               />
             )}
+          </div>
+          <div className="relative h-screen-1/2 w-full aspect-square bg-white/20 rounded-lg shadow-md shrink-0 cursor-pointer">
+            <Image src={recipe.imageUrl} alt={recipe.title} fill={true} className="w-full h-screen-1/2 object-cover rounded-lg" />
           </div>
           {loading ? (
             <h1 className="bg-coal-400 h-32 text-transparent rounded-lg w-full animate-pulse">
@@ -214,25 +211,12 @@ export default function ViewRecipePage({ params }: { params: { id: string } }) {
             </ul>
           </div>
         </section>
-        <section>
-          <div className="w-full relative">
-            <h2 className="text-xl font-semibold px-2 py-4">Przepis</h2>
-
-            <div className="flex flex-wrap gap-2">
-              {loading ? (
-                <span className="bg-coal-400 text-transparent h-64 rounded-lg w-full animate-pulse">
-                  Loading...
-                </span>
-              ) : (
-                parse(
-                  !recipe.recipeDetails.desc || recipe.recipeDetails.desc == "<p></p>"
-                    ? "<p className='opacity-80'>Nic tu nie ma.</p>"
-                    : recipe.recipeDetails.desc
-                )
-              )}
+        <section id="instructions-section">
+            <div>
+              <h2 className="text-xl font-semibold py-4">Przepis</h2>
+              {parse(recipe.recipeDetails.desc || "<p className='opacity-80'>Nic tu nie ma.</p>")}
             </div>
-          </div>
-        </section>
+          </section>
       </section>
       <section
         id="admin-recipe-view-section"

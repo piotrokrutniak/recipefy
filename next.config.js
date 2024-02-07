@@ -2,7 +2,8 @@
 const nextConfig = {
     images: {
         domains: [
-            "via.placeholder.com"
+            "via.placeholder.com",
+            "res.cloudinary.com"
         ]
     },
     eslint: { 

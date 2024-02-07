@@ -11,6 +11,7 @@ import { putRecipeDetails } from "@/app/utilities/axios/recipes/details/putDetai
 import { getRecipeDetails } from "@/app/utilities/axios/recipes/details/getDetails";
 import parse from "html-react-parser";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function AddRecipePage({ params }: { params: { id: string } }) {
   const [recipe, setRecipe] = useState<RecipeType>({
@@ -59,7 +60,7 @@ export default function AddRecipePage({ params }: { params: { id: string } }) {
 
   useEffect(() => {
     setValidated(recipe.title.length > 0 && recipe.summary.length > 0);
-  }, [loading]);
+  }, [loading, recipe.summary.length, recipe.title.length]);
 
   function submitAction(e: FormEvent) {
     e.preventDefault();
@@ -67,9 +68,6 @@ export default function AddRecipePage({ params }: { params: { id: string } }) {
     setError(undefined);
     if (validated) {
       patchRecipe(recipe)
-        .then((x) => {
-          console.log(x);
-        })
         .then(() => {
           putRecipeDetails(recipe.recipeDetails);
         })
@@ -135,18 +133,21 @@ export default function AddRecipePage({ params }: { params: { id: string } }) {
             <h2 className="text-xl md:text-2xl font-bold flex max-xs:flex-col place-items-start">
               <div className="flex">
                 {recipe.vegetarian && (
-                  <div className="relative w-7 h-7 pt-1 shrink-0">
-                    <FaFish className="absolute p-1" /> <FaBan className="absolute fill-red-500" />{" "}
-                  </div>
+                  <span className="relative w-7 h-7 pt-1 shrink-0">
+                    <FaLeaf className="absolute fill-green-500" />
+                  </span>
                 )}
                 {recipe.vegan && (
-                  <div className="relative w-7 h-7 pt-1 shrink-0">
-                    <FaEgg className="absolute p-1" /> <FaBan className="absolute fill-red-500" />{" "}
-                  </div>
+                  <span className="relative w-7 h-7 pt-1 shrink-0">
+                    <FaLeaf className="absolute fill-green-500" />
+                  </span>
                 )}
               </div>
               {recipe?.title}
             </h2>
+            <div className="relative h-screen-1/3 w-full aspect-square bg-white/20 rounded-lg shadow-md shrink-0 cursor-pointer">
+              <Image src={recipe.imageUrl} alt={recipe.title} fill={true} className="w-full h-screen-1/ object-cover rounded-lg" />
+            </div>
             <p className="text-lg">{recipe?.summary}</p>
             <div className="flex flex-col gap-2">
               <p className="flex whitespace-nowrap justify-between place-items-center gap-2 w-44">

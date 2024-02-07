@@ -16,11 +16,11 @@ export default function SearchBar() {
       <FaSearch className="fill-slate-50/40" />
       <input
         type="text"
-        placeholder="Search for a recipe"
+        placeholder="Szukaj przepisów"
         className="bg-transparent p-5 pl-0 text-white w-full outline-none text-lg border-none"
       />
 
-      <div className="flex text-slate-50 cursor-pointer border-l-2 pl-3 border-white/20 relative">
+      {/* <div className="flex text-slate-50 cursor-pointer border-l-2 pl-3 border-white/20 relative">
         <div
           className="flex opacity-40 hover:opacity-60 active:opacity-40 transition-opacity"
           onClick={() => ToggleDropdownOpened()}
@@ -73,7 +73,7 @@ export default function SearchBar() {
             />
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -5,10 +5,12 @@ import { LoadingPanel } from "@/app/components/generic/loadingPanel";
 import { GeneratePages, PaginationPanel } from "@/app/components/generic/paginationPanel";
 import FullScreenPopup from "@/app/components/popUps/schedulePopUp/fullScreenPopup";
 import { RecipeType } from "@/app/types";
+import { GetRecipes } from "@/app/utilities/axios/recipes/getRecipes";
 import { useUser } from "@/app/utilities/contexts/user/UserContext";
 import axios from "axios";
 import Link from "next/link";
-import { createContext, useContext, useEffect, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { Cookies } from "react-cookie";
 
 const DeleteActionContext = createContext<((x: string) => void) | undefined>(undefined);
@@ -30,8 +32,9 @@ export default function Recipes() {
   const [deletePopUp, setDeletePopUp] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
   const [pages, setPages] = useState<number[]>([]);
-  const cookies = new Cookies();
+  const cookies = useMemo(() => new Cookies(), []);
   const [favRecipes, setFavRecipes] = useState<string[]>(cookies.get("favoriteRecipes") ?? []);
+  const searchParams = useSearchParams();
 
   function InitDelete(id: string) {
     setDeletePopUp(true);
@@ -43,104 +46,10 @@ export default function Recipes() {
   useEffect(() => {
     setLoading(true);
     setError("");
+    const matches = searchParams.get("matches")
+    console.log("matches", matches)
 
-    // let x = {
-    //     "recipes": [
-    //         {
-    //             "cookTime": {
-    //                 "prep": 0,
-    //                 "idle": 0
-    //             },
-    //             "_id": "65555714ad5348d57b9eb56a",
-    //             "title": "Spicy Chicken and Rice Soup",
-    //             "summary": "A hearty and comforting soup with tender chicken, rice, vegetables and a touch of heat from chili flakes. This soup is easy to make and perfect for a cold day.",
-    //             "vegan": true,
-    //             "vegetarian": true,
-    //             "rating": 0,
-    //             "thumbnailUrl": "",
-    //             "imageUrl": "",
-    //             "ingredients": [],
-    //             "createdAt": "2023-11-15T23:41:08.607Z",
-    //             "updatedAt": "2023-11-15T23:41:08.607Z",
-    //             "__v": 0
-    //         },
-    //         {
-    //             "cookTime": {
-    //                 "prep": 0,
-    //                 "idle": 0
-    //             },
-    //             "_id": "65555722ad5348d57b9eb571",
-    //             "title": "Apple Cinnamon Muffins",
-    //             "summary": "A delicious and moist muffin with chunks of fresh apples and a cinnamon sugar topping. These muffins are great for breakfast or a snack, and can be made in less than 30 minutes.",
-    //             "vegan": true,
-    //             "vegetarian": true,
-    //             "rating": 0,
-    //             "thumbnailUrl": "",
-    //             "imageUrl": "",
-    //             "ingredients": [],
-    //             "createdAt": "2023-11-15T23:41:22.048Z",
-    //             "updatedAt": "2023-11-15T23:41:22.048Z",
-    //             "__v": 0
-    //         },
-    //         {
-    //             "cookTime": {
-    //                 "prep": 0,
-    //                 "idle": 0
-    //             },
-    //             "_id": "6555572dad5348d57b9eb577",
-    //             "title": "Creamy Mushroom Pasta",
-    //             "summary": "A simple and satisfying pasta dish with a creamy mushroom sauce. You can use any kind of pasta you like, and customize the sauce with your favorite herbs and cheese.",
-    //             "vegan": true,
-    //             "vegetarian": true,
-    //             "rating": 0,
-    //             "thumbnailUrl": "",
-    //             "imageUrl": "",
-    //             "ingredients": [],
-    //             "createdAt": "2023-11-15T23:41:33.732Z",
-    //             "updatedAt": "2023-11-15T23:41:33.732Z",
-    //             "__v": 0
-    //         },
-    //         {
-    //             "cookTime": {
-    //                 "prep": 0,
-    //                 "idle": 0
-    //             },
-    //             "_id": "65555737ad5348d57b9eb57d",
-    //             "title": "Salmon and Avocado Salad",
-    //             "summary": "A fresh and healthy salad with flaky salmon, creamy avocado, crisp lettuce and a tangy lemon dressing. This salad is high in protein and healthy fats, and can be enjoyed as a main or a side dish.",
-    //             "vegan": true,
-    //             "vegetarian": true,
-    //             "rating": 0,
-    //             "thumbnailUrl": "",
-    //             "imageUrl": "",
-    //             "ingredients": [],
-    //             "createdAt": "2023-11-15T23:41:43.519Z",
-    //             "updatedAt": "2023-11-15T23:41:43.519Z",
-    //             "__v": 0
-    //         },
-    //         {
-    //             "cookTime": {
-    //                 "prep": 0,
-    //                 "idle": 0
-    //             },
-    //             "_id": "65555742ad5348d57b9eb583",
-    //             "title": "Chocolate Chip Cookies",
-    //             "summary": "A classic and irresistible cookie with soft and chewy centers and crispy edges. These cookies are loaded with chocolate chips and have a hint of vanilla flavor. They are easy to make and always a crowd-pleaser.",
-    //             "vegan": true,
-    //             "vegetarian": true,
-    //             "rating": 0,
-    //             "thumbnailUrl": "",
-    //             "imageUrl": "",
-    //             "ingredients": [],
-    //             "createdAt": "2023-11-15T23:41:54.927Z",
-    //             "updatedAt": "2023-11-15T23:41:54.927Z",
-    //             "__v": 0
-    //         }
-    //     ],
-    //     "resultsCount": 7
-    // }
-
-    GetPosts(page)
+    GetRecipes(page, matches ?? "")
       .then((x) => {
         setRecipes([...x.recipes]);
         setLoading(false);
@@ -150,23 +59,11 @@ export default function Recipes() {
         setError(error);
         setLoading(false);
       });
-  }, [page]);
+  }, [page, searchParams]);
 
   useEffect(() => {
     cookies.set("favoriteRecipes", favRecipes);
-  }, [favRecipes]);
-
-  async function GetPosts(page: number) {
-    const result = await axios({
-      method: "get",
-      url: "http://localhost:3000/api/recipes",
-      params: {
-        page: page ?? 1
-      }
-    });
-
-    return result.data;
-  }
+  }, [cookies, favRecipes]);
 
   async function DeleteRecipe(id: string) {
     const result = await axios({
@@ -175,7 +72,7 @@ export default function Recipes() {
     });
     setDeletePopUp(false);
 
-    GetPosts(page)
+    GetRecipes(page)
       .then((x) => {
         setRecipes([...x.recipes]);
         setLoading(false);
@@ -208,12 +105,12 @@ export default function Recipes() {
               <ul className="flex flex-col gap-4">
                 {loading && <LoadingPanel className="text-white" />}
                 {!loading && recipes.length ? (
-                  recipes.map((x) => (
+                  recipes.map((recipe: RecipeType) => (
                     <RecipeListItem
                       favRecipes={favRecipes}
                       setFavRecipes={setFavRecipes}
-                      key={x._id}
-                      recipe={x}
+                      key={recipe._id}
+                      recipe={recipe}
                     />
                   ))
                 ) : (

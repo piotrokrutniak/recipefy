@@ -14,11 +14,12 @@ export async function GET(request: NextRequest) {
 
   const regex = matches == "" ? ".*" : `.*${matches}*.`;
   const resultsCount = await recipe
-    .find({ title: { $regex: new RegExp(regex) } })
+    .find({ title: { $regex: new RegExp(regex, "i") } })
     .count()
     .exec();
   const recipes = await recipe
-    .find({ title: { $regex: new RegExp(regex) } })
+    .find({ title: { $regex: new RegExp(regex, "i") } })
+    .sort({ createdAt: -1 })
     .skip((page - 1) * limit)
     .limit(limit)
     .exec();
@@ -38,7 +39,6 @@ export async function POST(request: NextRequest) {
     const result = await recipe.create(data);
     return NextResponse.json({ recipe: { _id: result._id, ...data } }, { status: 200 });
   } catch (error: any) {
-    console.log(error.message);
     return NextResponse.json({ message: error.message }, { status: 400 });
   }
 }
@@ -55,7 +55,6 @@ export async function PATCH(request: NextRequest) {
     const result = await recipe.findByIdAndUpdate(data._id, data, { new: true });
     return NextResponse.json({ recipe: result }, { status: 200 });
   } catch (error: any) {
-    console.log(error.message);
     return NextResponse.json({ message: error.message }, { status: 400 });
   }
 }
@@ -72,7 +71,6 @@ export async function PUT(request: NextRequest) {
     const result = await recipe.findByIdAndUpdate(data._id, data, { new: true });
     return NextResponse.json({ recipe: result }, { status: 200 });
   } catch (error: any) {
-    console.log(error.message);
     return NextResponse.json({ message: error.message }, { status: 400 });
   }
 }

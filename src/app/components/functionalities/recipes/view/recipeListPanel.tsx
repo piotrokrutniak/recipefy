@@ -1,10 +1,11 @@
 import Rating from "@/app/components/generic/rating";
 import { RecipeType } from "@/app/types";
+import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState, useEffect, Dispatch, SetStateAction } from "react";
 import { Cookies } from "react-cookie";
 import { BsHeartFill, BsHeart } from "react-icons/bs";
-import { FaLink, FaFish, FaBan, FaEgg } from "react-icons/fa";
+import { FaLink, FaFish, FaBan, FaEgg, FaLeaf } from "react-icons/fa";
 
 export default function RecipeListItem({
   recipe,
@@ -41,13 +42,11 @@ export default function RecipeListItem({
       const temp = favRecipes;
       if (index > -1) {
         setSaved(false);
-        console.log("removed " + recipe._id);
         temp.splice(index, 1);
 
         setFavRecipes([...temp]);
       } else {
         setSaved(true);
-        console.log("added " + recipe._id);
         temp.push(recipe._id);
         setFavRecipes([...temp]);
       }
@@ -56,7 +55,9 @@ export default function RecipeListItem({
 
   return (
     <li className="w-full md:h-56 border-2 border-coal-400 hover:bg-slate-400/10 shadow-lg rounded-lg flex flex-col md:flex-row gap-3 md:gap-6 p-2 sm:p-4">
-      <div className="md:h-full h-screen-1/3 w-auto aspect-square bg-white/20 rounded-lg shadow-md shrink-0 cursor-pointer"></div>
+      <div className="md:h-full h-screen-1/3 w-auto aspect-square bg-white/20 rounded-lg shadow-md shrink-0 cursor-pointer">
+        <Image src={recipe.imageUrl} alt={recipe.title} width={200} height={200} className="w-full h-full object-cover rounded-lg" />
+      </div>
       <div className="flex flex-col justify-between gap-3 sm:pt-4 overflow-hidden w-full">
         <div className="flex flex-col gap-2 md:gap-4 h-max overflow-hidden">
           <div className="flex flex-col md:flex-row justify-between md:place-items-center gap-1 md:gap-4 w-full">
@@ -77,12 +78,12 @@ export default function RecipeListItem({
           <div className="flex relative gap-2">
             {recipe.vegetarian && (
               <span className="relative w-7 h-7 shrink-0 text-3xl">
-                <FaFish className="absolute p-1" /> <FaBan className="absolute fill-red-500" />{" "}
+                <FaLeaf className="absolute fill-green-500" />
               </span>
             )}
             {recipe.vegan && (
               <span className="relative w-7 h-7 shrink-0 text-3xl">
-                <FaEgg className="absolute p-1" /> <FaBan className="absolute fill-red-500" />{" "}
+                <FaLeaf className="absolute fill-green-500" />
               </span>
             )}
           </div>
