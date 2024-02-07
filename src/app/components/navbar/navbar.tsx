@@ -5,9 +5,12 @@ import { BsX } from "react-icons/bs";
 import Button from "../generic/button";
 import { useState } from "react";
 import Link from "next/link";
+import React from "react";
+import { useUser } from "@/app/utilities/contexts/user/UserContext";
 
 export default function NavBar() {
   const [showMobile, setShowMobile] = useState(false);
+  const { user, signOut } = useUser();
 
   return (
     <div className="bg-black/80 sticky top-0 z-20 backdrop-blur-xl">
@@ -33,6 +36,7 @@ export default function NavBar() {
                 Recipes
               </Button>
             </Link>
+            {user?.isSignedIn &&
             <Link href={"/admin"}>
               <Button
                 className="text-white bg-transparent active:bg-slate-100/5 hover:bg-slate-200/10"
@@ -40,23 +44,33 @@ export default function NavBar() {
               >
                 Admin
               </Button>
-            </Link>
-            <Link href={"/signin"}>
+            </Link>}
+            {user?.isSignedIn ?
               <Button
                 className="text-white bg-indigo-500 bg-opacity-80 active:bg-opacity-80 hover:bg-opacity-100"
-                onClick={undefined}
+                onClick={signOut}
               >
-                Sign In
-              </Button>
-            </Link>
-            <Link href={"/signup"}>
-              <Button
-                className="text-white border-white/60 border-2 border-solid bg-transparent active:bg-slate-100/5 hover:bg-slate-100/10 hover:border-indigo-200/60"
-                onClick={undefined}
-              >
-                Sign Up
-              </Button>
-            </Link>
+                Sign Out
+              </Button> :
+              <> 
+                <Link href={"/auth/signin"}>
+                  <Button
+                    className="text-white bg-indigo-500 bg-opacity-80 active:bg-opacity-80 hover:bg-opacity-100"
+                    onClick={undefined}
+                  >
+                    Sign In
+                  </Button>
+                </Link>
+                <Link href={"/auth/signup"}>
+                  <Button
+                    className="text-white border-white/60 border-2 border-solid bg-transparent active:bg-slate-100/5 hover:bg-slate-100/10 hover:border-indigo-200/60"
+                    onClick={undefined}
+                  >
+                    Sign Up
+                  </Button>
+                </Link>
+              </>
+            }
           </div>
           <div className="md:hidden">
             <FaBars

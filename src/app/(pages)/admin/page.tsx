@@ -1,3 +1,4 @@
+import React from "react";
 import Link from "next/link";
 
 export default function AdminPage() {
@@ -20,7 +21,7 @@ function MenuPanel({ text = "", href = "/" }: { text?: string; href?: string }) 
   return (
     <Link href={href}>
       <div
-        className="h-64 bg-indigo-500  rounded-lg shadow-md flex justify-center place-items-center text-white font-semibold text-xl
+        className="h-64 bg-indigo-500 rounded-lg shadow-md flex justify-center place-items-center text-white font-semibold text-xl
                 hover:bg-indigo-400 cursor-pointer transition-all"
       >
         {text}

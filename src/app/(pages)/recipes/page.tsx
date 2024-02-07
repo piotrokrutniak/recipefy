@@ -5,6 +5,7 @@ import { LoadingPanel } from "@/app/components/generic/loadingPanel";
 import { GeneratePages, PaginationPanel } from "@/app/components/generic/paginationPanel";
 import FullScreenPopup from "@/app/components/popUps/schedulePopUp/fullScreenPopup";
 import { RecipeType } from "@/app/types";
+import { useUser } from "@/app/utilities/contexts/user/UserContext";
 import axios from "axios";
 import Link from "next/link";
 import { createContext, useContext, useEffect, useRef, useState } from "react";
@@ -36,6 +37,8 @@ export default function Recipes() {
     setDeletePopUp(true);
     setSelectedId(id);
   }
+
+  const { user } = useUser();
 
   useEffect(() => {
     setLoading(true);
@@ -150,7 +153,6 @@ export default function Recipes() {
   }, [page]);
 
   useEffect(() => {
-    console.log(favRecipes);
     cookies.set("favoriteRecipes", favRecipes);
   }, [favRecipes]);
 
@@ -197,9 +199,10 @@ export default function Recipes() {
           <div className="flex flex-col gap-4 overflow-visible ">
             <div className="flex justify-between place-items-center border-b-2 pb-4 sm:pb-6 border-violet-50/40 text-white">
               <h1 className="text-2xl font-semibold">Recipes</h1>
+              {user?.isSignedIn && 
               <Link href={"/admin/recipes/add"} target="_blank">
                 <Button className="bg-indigo-500">Add New</Button>
-              </Link>
+              </Link>}
             </div>
             <div className="rounded-lg shadow-lg overflow-y-visible">
               <ul className="flex flex-col gap-4">

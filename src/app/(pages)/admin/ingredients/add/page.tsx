@@ -7,8 +7,13 @@ import axios from "axios";
 import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { FaSave } from "react-icons/fa";
+import { useTranslation } from "next-i18next";
 
-export default function ViewIngredientPage({ params }: { params: { id: string } }) {
+export default function ViewIngredientPage({
+  params,
+}: {
+  params: { id: string };
+}) {
   const [ingredient, setIngredient] = useState<IngredientType>({
     name: "",
     vegan: false,
@@ -18,6 +23,7 @@ export default function ViewIngredientPage({ params }: { params: { id: string } 
   const [loading, setLoading] = useState<boolean>(false);
   const [validated, setValidated] = useState<boolean>(false);
   const router = useRouter();
+  const { t } = useTranslation("admin");
 
   useEffect(() => {
     setValidated(ingredient.name.length > 0);
@@ -122,7 +128,7 @@ export default function ViewIngredientPage({ params }: { params: { id: string } 
           </div>
         </div>
         <div className="flex justify-end place-items-center mt-4">
-          <Button disabled={!validated} className="flex gap-2 place-items-center">
+          <Button disabled={!validated} type="submit" className="flex gap-2 place-items-center">
             <FaSave className="w-5 h-5" /> Add
           </Button>
         </div>

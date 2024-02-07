@@ -226,7 +226,11 @@ export default function AddRecipePage({ params }: { params: { id: string } }) {
                 Last saved at: {ParseDateTime(recipe?.updatedAt)}
               </div>
             )}
-            <Button disabled={!validated} className="flex flex-end gap-2 place-items-center">
+            <Button 
+              type="submit"
+              disabled={!validated} 
+              className="flex flex-end gap-2 place-items-center"
+            >
               {loading ? (
                 <>
                   <FaSpinner className="w-5 h-5 animate-spin" /> Saving{" "}
