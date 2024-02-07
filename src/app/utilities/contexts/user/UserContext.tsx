@@ -24,12 +24,12 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   const signIn = (data: { email: string; password: string }) => {
     setUser({ ...data, isSignedIn: true, signInExpiresAt: Date.now() + 1000 * 60 * 60 * 24 * 7 });
-    cookies.set("user", { ...data, isSignedIn: true, signInExpiresAt: Date.now() + 1000 * 60 * 60 * 24 * 7 });
+    cookies.set("user", { ...data, isSignedIn: true, signInExpiresAt: Date.now() + 1000 * 60 * 60 * 24 * 7 }, { path: "/", expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7) });
   }
 
   const signOut = () => {
     setUser(null);
-    cookies.remove("user");
+    cookies.remove("user", { path: "/" });
   }
 
   return (

@@ -47,7 +47,6 @@ export default function Recipes() {
     setLoading(true);
     setError("");
     const matches = searchParams.get("matches")
-    console.log("matches", matches)
 
     GetRecipes(page, matches ?? "")
       .then((x) => {
