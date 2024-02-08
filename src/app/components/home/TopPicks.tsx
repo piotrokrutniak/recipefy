@@ -32,16 +32,16 @@ export const TopPicks = () => {
               height={1280} 
               className="w-full h-full object-cover rounded-lg opacity-60"
             />
-            <div className="absolute bottom-0 left-0 w-full h-fit p-8 flex flex-col justify-end gap-4">
-              <p className="flex text-4xl font-bold">{recipe.title}</p>
-              <p className="flex text-2xl text-start opacity-80">{recipe.summary.trim()}</p>
+            <div className="absolute bottom-0 left-0 w-full text-start h-fit p-4 pb-8 sm:p-8 flex flex-col justify-end gap-4">
+              <p className="flex text-3xl md:text-4xl font-bold">{recipe.title}</p>
+              <p className="md:text-xl line-clamp-3">{recipe.summary.trim()}</p>
               <Button
                 onClick={() => {
                   router.push(`/recipes/${recipe._id}`);
                 }}
-                className="w-fit p-4"
+                className="w-fit p-4 bg-indigo-500/95 hover:bg-indigo-500/100 active:bg-indigo-500/80"
               >
-                View Recipe
+                Odwiedź
               </Button>
             </div>
           </div>

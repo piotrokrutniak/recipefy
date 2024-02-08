@@ -19,9 +19,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <UserProvider>
       <html lang="pl" className="scroll-smooth">
         <body className={`${inter.className} bg-black text-white`}>
-          <main className="flex flex-col min-h-screen min-w-mobile pb-4 gap-4 overflow-x-clip bg-slate-800/25">
+          <main className="flex flex-col min-h-screen min-w-mobile sm:gap-4 overflow-x-clip bg-slate-800/25">
             <NavBar />
-            <div className="flex flex-col gap-4 flex-1 relative">
+            <div className="flex flex-col sm:gap-4 flex-1 relative">
               {children}
             </div>
             <Footbar />

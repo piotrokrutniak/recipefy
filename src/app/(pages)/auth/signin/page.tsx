@@ -37,8 +37,8 @@ const SignInPage: React.FC = () => {
   return (
     <form 
       onSubmit={handleSubmit(onSubmit)}
-      className="max-w-xl h-fit w-full flex flex-col space-y-4 p-16 bg-black rounded-lg shadow-sm outline-1 outline outline-slate-200/10
-        mx-auto mt-20"
+      className="max-w-xl sm:h-fit w-full flex flex-col space-y-4 p-16 bg-black rounded-lg shadow-sm outline-1 outline outline-slate-200/10
+        mx-auto sm:mt-20 flex-1"
     >
       <NewFormInput label="email" type="email" error={errors.email?.message} register={register("email")} />
       <NewFormInput label="password" type="password" error={errors.password?.message} register={register("password")} />

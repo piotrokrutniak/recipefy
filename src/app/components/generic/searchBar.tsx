@@ -16,7 +16,7 @@ export default function SearchBar() {
       <input
         type="text"
         placeholder="Szukaj przepisów"
-        className="bg-transparent p-5 pl-0 text-white w-full outline-none text-lg border-none"
+        className="bg-transparent p-3 pl-0 text-white w-full outline-none text-lg border-none"
         value={value}
         onChange={(e) => setValue(e.target.value)}
       onKeyDown={(e) => {

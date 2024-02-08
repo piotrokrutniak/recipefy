@@ -117,7 +117,7 @@ export default function ViewRecipePage({ params }: { params: { id: string } }) {
     <RecipeContext.Provider value={{ recipe: recipe, setRecipe: setRecipe }}>
       <section
         id="admin-recipe-view-section"
-        className="max-w-4xl bg-slate-500/30 mx-auto w-full max-sm:p-4 p-8 rounded-xl shadow-md shadow-black/40 flex flex-col gap-6"
+        className="max-w-4xl bg-slate-500/30 mx-auto w-full max-sm:p-4 p-8 sm:rounded-xl sm:shadow-md shadow-black/40 flex flex-col gap-6"
         onSubmit={(e) => submitAction(e)}
       >
         <section className="flex flex-col gap-8">
@@ -155,7 +155,7 @@ export default function ViewRecipePage({ params }: { params: { id: string } }) {
               />
             )}
           </div>
-          <div className="relative h-screen-1/2 w-full aspect-square bg-white/20 rounded-lg shadow-md shrink-0 cursor-pointer">
+          <div className="relative h-screen-1/2 w-full aspect-square bg-white/20 rounded-lg sm:shadow-md shrink-0 cursor-pointer">
             <Image src={recipe.imageUrl} alt={recipe.title} fill={true} className="w-full h-screen-1/2 object-cover rounded-lg" />
           </div>
           {loading ? (
@@ -220,11 +220,11 @@ export default function ViewRecipePage({ params }: { params: { id: string } }) {
       </section>
       <section
         id="admin-recipe-view-section"
-        className="max-w-4xl bg-slate-500/30 mx-auto w-full max-sm:p-4 p-8 rounded-xl shadow-md shadow-black/40 flex flex-col gap-6"
+        className="max-w-4xl bg-slate-500/30 mx-auto w-full max-sm:p-4 p-8 sm:rounded-xl sm:shadow-md shadow-black/40 flex flex-col gap-6"
         onSubmit={(e) => submitAction(e)}
       >
         <section id="review-section" className="relative">
-          <div className="flex justify-between gap-16">
+          <div className="flex flex-col md:flex-row justify-between gap-16">
             <div className="w-fit shrink-0">
               <h2 className="text-xl font-semibold px-2 sm:px-4 py-4">Oceny</h2>
               <div className="flex flex-col gap-4">

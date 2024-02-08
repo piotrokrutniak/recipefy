@@ -21,9 +21,9 @@ export default function Rating({
       ? ratings.push(<Star className={starClassName} filled={true} />)
       : ratings.push(
           rating >= 0.5 ? (
-            <HalfStar className={starClassName} />
+            <HalfStar className={starClassName} index={i} />
           ) : (
-            <Star className={starClassName} filled={false} />
+            <Star className={starClassName} filled={false} index={i} />
           )
         );
     rating -= 1;
@@ -44,12 +44,12 @@ function Star({
   index?: number;
 }) {
   return filled ? (
-    <FaStar className={`${className ?? ""} w-auto fill-amber-400 aspect-square`} />
+    <FaStar className={`${className ?? ""} w-auto fill-amber-400 aspect-square`} key={index}/>
   ) : (
-    <FaRegStar className={`${className ?? ""} w-auto aspect-square`} />
+    <FaRegStar className={`${className ?? ""} w-auto aspect-square`} key={index}/>
   );
 }
 
 function HalfStar({ className = "", index }: { className?: string; index?: number }) {
-  return <FaStarHalfAlt className={`${className ?? ""} w-auto fill-amber-400 aspect-square`} />;
+  return <FaStarHalfAlt className={`${className ?? ""} w-auto fill-amber-400 aspect-square`} key={index}/>;
 }

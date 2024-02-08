@@ -14,6 +14,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { Cookies } from "react-cookie";
+import { FaReceipt } from "react-icons/fa";
 
 // const DeleteActionContext = createContext<((x: string) => void) | undefined>(undefined);
 
@@ -92,15 +93,15 @@ export default function Recipes() {
     <DeleteActionContext.Provider value={InitDelete}>
       <section
         id="admin-recipes-section"
-        className="max-w-7xl bg-slate-500/30 mx-auto w-full p-2 sm:p-4 md:p-8 rounded-xl shadow-md shadow-black/40
+        className="max-w-7xl bg-slate-500/30 mx-auto w-full p-2 sm:p-4 md:p-8 sm:rounded-xl shadow-md shadow-black/40
           relative"
       >
-        <div className="flex flex-col gap-4 overflow-visible h-full">
-          <div className="flex justify-between place-items-center pb-4 sm:pb-6  text-white">
-            <h1 className="text-2xl font-semibold">Recipes</h1>
+        <div className="flex flex-col gap-3 sm:gap-4 overflow-visible h-full">
+          <div className="flex justify-between place-items-center sm:pb-6 text-white">
+            <h1 className="text-2xl font-semibold flex gap-1 place-items-center"><FaReceipt className={"text-vermilion-400"}/>Przepisy</h1>
             {user?.isSignedIn && 
             <Link href={"/admin/recipes/add"} target="_blank">
-              <Button className="bg-indigo-500">Add New</Button>
+              <Button className="bg-indigo-500"> Dodaj </Button>
             </Link>}
           </div>
           <SearchBar/>
