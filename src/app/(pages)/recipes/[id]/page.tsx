@@ -1,8 +1,8 @@
 "use client";
 import { IngredientType, RecipeType } from "@/app/types";
 import { FormEvent, useEffect, useMemo, useState } from "react";
-import { FaBan, FaEgg, FaFish, FaLeaf } from "react-icons/fa";
-import { GetDateTime, ParseDate } from "@/app/utilities/globalMethods";
+import { FaLeaf } from "react-icons/fa";
+import { GetDateTime } from "@/app/utilities/globalMethods";
 import { RecipeContext } from "@/app/components/functionalities/recipes/recipeContext";
 import { patchRecipe } from "@/app/utilities/axios/recipes/patchRecipe";
 import { getRecipe } from "@/app/utilities/axios/recipes/getRecipe";
@@ -13,7 +13,6 @@ import { BsHeart, BsHeartFill } from "react-icons/bs";
 import { Cookies } from "react-cookie";
 import Rating from "@/app/components/generic/rating";
 import RatingActive from "@/app/components/generic/ratingActive";
-import FormInput from "@/app/components/generic/formInput";
 import TextArea from "@/app/components/generic/textArea";
 import Button from "@/app/components/generic/button";
 import Image from "next/image";

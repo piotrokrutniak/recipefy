@@ -16,9 +16,9 @@ import { getRecipe } from "@/app/utilities/axios/recipes/getRecipe";
 import { AddIngredient } from "@/app/components/functionalities/recipes/addRecipeIngredient";
 import { putRecipeDetails } from "@/app/utilities/axios/recipes/details/putDetails";
 import { getRecipeDetails } from "@/app/utilities/axios/recipes/details/getDetails";
-import Tiptap from "@/app/components/generic/tipTap/tipTapEditor";
 import Link from "next/link";
 import axios from "axios";
+import { QuillEditor } from "@/app/components/generic/quill/QuillEditor";
 
 export default function AddRecipePage({ params }: { params: { id: string } }) {
   const [recipe, setRecipe] = useState<RecipeType>({
@@ -282,11 +282,7 @@ function InstructionsEditor() {
 
   return (
     recipe.recipeDetails.desc && (
-      <Tiptap
-        setValue={setDesc}
-        defaultValue={recipe?.recipeDetails.desc}
-        className="min-h-screen-1/2 h-64"
-      />
+      <QuillEditor state={recipe.recipeDetails.desc} setState={setDesc} />
     )
   );
 }

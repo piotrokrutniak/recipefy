@@ -23,9 +23,8 @@ export default function Tiptap({
   className?: string;
   index?: number;
 }) {
-  const content = defaultValue || "<p></p>";
-  console.log(defaultValue);
   const [focused, setFocused] = useState(false);
+  const content = defaultValue || "<p></p>";
 
   const editor = useEditor({
     extensions,
@@ -89,6 +88,18 @@ export default function Tiptap({
                 disabled={!editor.can().chain().focus().redo().run()}
               >
                 <FaRedo />
+              </button>
+              <button 
+                className={`${editor.isActive("h1") ? "bg-slate-50" : "bg-slate-50/40 text-white"} h-8 w-8 line-through font-medium p-2 rounded leading-3`}
+                onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} 
+              >
+                H1
+              </button>
+              <button 
+                className={`${editor.isActive("bullet") ? "bg-slate-50" : "bg-slate-50/40 text-white"} h-8 w-8 line-through font-medium p-2 rounded leading-3`}
+                onClick={() => editor.chain().focus().toggleBulletList().run()} 
+              >
+                ul
               </button>
             </div>
           </BubbleMenu>
