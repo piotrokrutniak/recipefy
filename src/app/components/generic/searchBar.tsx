@@ -3,9 +3,9 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { BsX } from "react-icons/bs";
 import { FaSearch, FaAngleDown } from "react-icons/fa";
 
-export default function SearchBar() {
+export default function SearchBar({ initialValue }: { initialValue?: string }) {
   const [dropdownOpened, setDropdownOpened] = useState(false);
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(initialValue ?? "");
   function ToggleDropdownOpened() {
     setDropdownOpened((x) => !x);
   }

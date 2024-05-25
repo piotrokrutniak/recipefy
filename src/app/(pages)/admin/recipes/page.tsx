@@ -4,19 +4,19 @@ import { LoadingPanel } from "@/app/components/generic/loadingPanel";
 import { GeneratePages, PaginationPanel } from "@/app/components/generic/paginationPanel";
 import FullScreenPopup from "@/app/components/popUps/schedulePopUp/fullScreenPopup";
 import { RecipeType } from "@/app/types";
-import { GetRecipes } from "@/app/utilities/axios/recipes/getRecipes";
+import { getRecipes, getRecipesAdmin } from "@/app/utilities/axios/recipes/getRecipes";
+import { patchRecipe } from "@/app/utilities/axios/recipes/patchRecipe";
 import {
   DeleteActionContext,
   useDeleteActionContext
 } from "@/app/utilities/contexts/ingredients/DeleteActionContext";
 import { ParseDate } from "@/app/utilities/globalMethods";
 import axios from "axios";
+import clsx from "clsx";
 import Link from "next/link";
 import {
   Dispatch,
   SetStateAction,
-  createContext,
-  useContext,
   useEffect,
   useRef,
   useState
@@ -40,7 +40,7 @@ export default function Recipes() {
   useEffect(() => {
     setLoading(true);
     setError("");
-    GetRecipes(page)
+    getRecipesAdmin(page)
       .then((x) => {
         setRecipes([...x.recipes]);
         setLoading(false);
@@ -60,7 +60,7 @@ export default function Recipes() {
     });
     setDeletePopUp(false);
 
-    GetRecipes(page)
+    getRecipes(page)
       .then((x) => {
         setRecipes([...x.recipes]);
         setLoading(false);
@@ -99,6 +99,7 @@ export default function Recipes() {
                 <span className="w-28 shrink-0 max-xs:hidden overflow-hidden">Author</span>
                 <span className="w-28 shrink-0 max-xs:hidden">Updated</span>
                 <span className="w-28 shrink-0 max-xs:hidden">Created</span>
+                <span className="w-28 shrink-0 max-xs:hidden">Published</span>
                 <span className="w-10 shrink-0 "> </span>
               </div>
               <ul className="[&>*:nth-child(odd)]:bg-white/5">
@@ -181,6 +182,9 @@ function ListItem({ recipe }: { recipe: RecipeType }) {
       <span className="w-28 shrink-0 max-xs:hidden">
         {recipe?.createdAt ? ParseDate(recipe?.createdAt) : "Unknown"}
       </span>
+      <span className="w-28 shrink-0 max-xs:hidden ju">
+        <PublishedToggle recipe={recipe} />
+      </span>
       <div
         className="flex place-items-center p-2 rounded-lg w-10 shrink-0 opacity-70 hover:opacity-100 cursor-pointer"
         onMouseDown={() => setDropdownOpen((x) => !x)}
@@ -248,3 +252,20 @@ function OptionsDropdown({
     </ul>
   );
 }
+
+export const PublishedToggle = ({ recipe }: { recipe: RecipeType }) => {
+  const [published, setPublished] = useState<boolean>(recipe.published ?? false);
+  const handleToggle = () => {
+    setPublished((x) => !x);
+    patchRecipe({ ...recipe, published: !recipe.published });
+  };  
+  
+  return (
+    <button onClick={handleToggle} className="bg-slate-700 w-full max-w-[48px] p-2 rounded-lg relative text-white">
+      <div className={clsx([
+        "w-6 h-6 rounded-full absolute transition-transform duration-300 ease-in-out -top-[4px]",
+        published ? "bg-indigo-500 right-0" : "bg-slate-400 left-0",
+      ])} />
+    </button>
+  );
+};

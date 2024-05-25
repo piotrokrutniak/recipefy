@@ -106,23 +106,21 @@ export default function ViewIngredientPage({
         </div>
         <div className="flex flex-col sm:flex-row justify-between gap-6">
           <div className="flex flex-col gap-6 w-36">
-            <div className="flex justify-between place-items-center gap-4 pl-2">
-              {" "}
-              Vegan{" "}
+            <div className="flex place-items-center gap-4 pl-2">
               <FormCheckbox
                 value={ingredient?.vegan || false}
                 updateValue={setVegan}
                 defaultValue={ingredient?.vegan}
               />{" "}
+              Vegan
             </div>
-            <div className="flex justify-between place-items-center gap-4 pl-2">
-              {" "}
-              Vegetarian{" "}
+            <div className="flex place-items-center gap-4 pl-2">
               <FormCheckbox
                 value={ingredient?.vegetarian || false}
                 updateValue={setVegetarian}
                 defaultValue={ingredient?.vegetarian}
               />{" "}
+              Vegetarian
             </div>
           </div>
         </div>

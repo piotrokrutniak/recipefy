@@ -9,6 +9,7 @@ export type RecipeType = AuditableType & {
   _id?: string;
   title: string;
   summary: string;
+  published?: boolean;
   cookTime: {
     prep: number;
     idle: number;

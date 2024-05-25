@@ -1,6 +1,6 @@
 "use client";
 import { RecipeType } from "@/app/types";
-import { GetRecipes } from "@/app/utilities/axios/recipes/getRecipes";
+import { getRecipes } from "@/app/utilities/axios/recipes/getRecipes";
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { useEffect, useState } from "react";
@@ -14,7 +14,7 @@ export const TopPicks = () => {
   const router = useRouter();
 
   useEffect(() => {
-    GetRecipes(1).then((data) => {
+    getRecipes(1).then((data) => {
       setRecipes(data.recipes.slice(0, 3));
     });
   }, []);

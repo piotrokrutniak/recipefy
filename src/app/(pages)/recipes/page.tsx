@@ -6,7 +6,7 @@ import { GeneratePages, PaginationPanel } from "@/app/components/generic/paginat
 import SearchBar from "@/app/components/generic/searchBar";
 import FullScreenPopup from "@/app/components/popUps/schedulePopUp/fullScreenPopup";
 import { RecipeType } from "@/app/types";
-import { GetRecipes } from "@/app/utilities/axios/recipes/getRecipes";
+import { getRecipes } from "@/app/utilities/axios/recipes/getRecipes";
 import { DeleteActionContext } from "@/app/utilities/contexts/ingredients/DeleteActionContext";
 import { useUser } from "@/app/utilities/contexts/user/UserContext";
 import axios from "axios";
@@ -38,6 +38,7 @@ export default function Recipes() {
   const cookies = useMemo(() => new Cookies(), []);
   const [favRecipes, setFavRecipes] = useState<string[]>(cookies.get("favoriteRecipes") ?? []);
   const searchParams = useSearchParams();
+  const [matches] = useState<string | undefined>(searchParams.get("matches") ?? undefined);
 
   function InitDelete(id: string) {
     setDeletePopUp(true);
@@ -51,7 +52,7 @@ export default function Recipes() {
     setError("");
     const matches = searchParams.get("matches")
 
-    GetRecipes(page, matches ?? "")
+    getRecipes(page, matches ?? "")
       .then((x) => {
         setRecipes([...x.recipes]);
         setLoading(false);
@@ -75,7 +76,7 @@ export default function Recipes() {
     });
     setDeletePopUp(false);
 
-    GetRecipes(page)
+    getRecipes(page)
       .then((x) => {
         setRecipes([...x.recipes]);
         setLoading(false);
@@ -104,7 +105,7 @@ export default function Recipes() {
               <Button className="bg-indigo-500"> Dodaj </Button>
             </Link>}
           </div>
-          <SearchBar/>
+          <SearchBar initialValue={matches}/>
           <div className="overflow-y-visible h-full border-t-2 border-violet-50/40 pt-4">
             <ul className="flex flex-col gap-4 flex-1 h-full">
               {loading && <LoadingPanel className="text-white h-full" />}

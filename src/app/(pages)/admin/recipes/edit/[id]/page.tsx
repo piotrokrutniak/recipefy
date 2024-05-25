@@ -19,6 +19,8 @@ import { getRecipeDetails } from "@/app/utilities/axios/recipes/details/getDetai
 import Link from "next/link";
 import axios from "axios";
 import { QuillEditor } from "@/app/components/generic/quill/QuillEditor";
+import { PublishedToggle } from "../../page";
+import clsx from "clsx";
 
 export default function AddRecipePage({ params }: { params: { id: string } }) {
   const [recipe, setRecipe] = useState<RecipeType>({
@@ -36,13 +38,18 @@ export default function AddRecipePage({ params }: { params: { id: string } }) {
     rating: 0,
     thumbnailUrl: "",
     imageUrl: "",
-    ingredients: []
+    ingredients: [],
+    published: false,
   });
 
   const [error, setError] = useState<string>();
   const [loading, setLoading] = useState<boolean>(false);
   const [validated, setValidated] = useState<boolean>(false);
   const numRegex: RegExp = new RegExp("d*$");
+
+  useEffect(() => {
+    console.log("published", recipe.published)
+  }, [recipe.published]);
 
   useEffect(() => {
     setValidated(recipe.title.length > 0 && recipe.summary.length > 0);
@@ -125,6 +132,10 @@ export default function AddRecipePage({ params }: { params: { id: string } }) {
     setRecipe({ ...recipe });
   }
 
+  function togglePublished(value: boolean) {
+    setRecipe({ ...recipe, published: value });
+  }
+
   return (
     <>
       <RecipeContext.Provider value={{ recipe: recipe, setRecipe: setRecipe }}>
@@ -137,17 +148,25 @@ export default function AddRecipePage({ params }: { params: { id: string } }) {
             {
               // TODO: Add toggle for updated and created date section on mobile
             }
-            <h1 className="text-2xl flex font-semibold sm:pl-4 place-items-center gap-4">
-              Edit Recipe
-              <Link href={"/admin/recipes/view/" + params.id} className="w-fit">
-                <Button className="text-base !p-2 font-normal">
-                  {" "}
-                  <FaEye /> Preview
-                </Button>
-              </Link>
-            </h1>
+            <div className="flex flex-col gap-5">
+              <h1 className="text-2xl flex font-semibold place-items-center gap-4">
+                Edit Recipe
+                <Link href={"/admin/recipes/view/" + params.id} className="w-fit">
+                  <Button className="text-base !p-2 font-normal">
+                    {" "}
+                    <FaEye /> Preview
+                  </Button>
+                </Link>
+              </h1>
+              <h2 className="opacity-70 ">{params.id}</h2>
+            </div>
             <div className="flex flex-col gap-2">
-              <h2 className="opacity-70">{params.id}</h2>
+              <div className="flex justify-between">
+                <span className="font-semibold">Published:</span>
+                <div className="w-[48px] flex place-self-end mb-1">
+                  <SimpleToggle initialValue={recipe?.published ?? false} updateMethod={togglePublished} />
+                </div>
+              </div>
               <p className="flex whitespace-nowrap justify-between sm:ml-auto mr-0 place-items-center gap-2 w-44">
                 {" "}
                 <span className="font-semibold">Updated:</span>{" "}
@@ -318,3 +337,21 @@ async function uploadImageToCloudinary(file: File) {
     throw new Error("Failed to upload image");
   }
 }
+
+export const SimpleToggle = ({ initialValue, updateMethod }: { initialValue: boolean, updateMethod: (value: boolean) => void }) => {
+  const [value, setValue] = useState<boolean | undefined>(undefined);
+  const handleToggle = () => {
+    const newValue = !value;
+    setValue(newValue);
+    updateMethod(newValue);
+  };  
+  
+  return (
+    <button onClick={handleToggle} className="bg-slate-700 w-full max-w-[48px] p-2 rounded-lg relative text-white">
+      <div className={clsx([
+        "w-6 h-6 rounded-full absolute transition-transform duration-300 ease-in-out -top-[4px]",
+        value ?? initialValue ? "bg-indigo-500 right-0" : "bg-slate-400 left-0",
+      ])} />
+    </button>
+  );
+};
