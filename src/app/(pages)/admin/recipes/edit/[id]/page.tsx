@@ -19,8 +19,6 @@ import { getRecipeDetails } from "@/app/utilities/axios/recipes/details/getDetai
 import Link from "next/link";
 import axios from "axios";
 import { QuillEditor } from "@/app/components/generic/quill/QuillEditor";
-import { PublishedToggle } from "../../page";
-import clsx from "clsx";
 import { SimpleToggle } from "@/app/components/generic/toggleButton";
 
 export default function AddRecipePage({ params }: { params: { id: string } }) {
