@@ -14,11 +14,11 @@ export async function GET(request: NextRequest) {
 
   const regex = matches == "" ? ".*" : `.*${matches}*.`;
   const resultsCount = await recipe
-    .find({ title: { $regex: new RegExp(regex, "i") }, published: true })
+    .find({ title: { $regex: new RegExp(regex, "i") } })
     .count()
     .exec();
   const recipes = await recipe
-    .find({ title: { $regex: new RegExp(regex, "i") }, published: true })
+    .find({ title: { $regex: new RegExp(regex, "i") } })
     .sort({ createdAt: -1 })
     .skip((page - 1) * limit)
     .limit(limit)

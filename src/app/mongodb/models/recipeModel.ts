@@ -7,6 +7,7 @@ export const recipeSchema = new Schema(
       type: Schema.Types.ObjectId,
       auto: true
     },
+    published: Boolean || undefined,
     title: String,
     summary: String,
     cookTime: {
