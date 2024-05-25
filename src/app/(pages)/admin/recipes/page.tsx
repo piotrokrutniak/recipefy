@@ -253,7 +253,7 @@ function OptionsDropdown({
   );
 }
 
-export const PublishedToggle = ({ recipe }: { recipe: RecipeType }) => {
+const PublishedToggle = ({ recipe }: { recipe: RecipeType }) => {
   const [published, setPublished] = useState<boolean>(recipe.published ?? false);
   const handleToggle = () => {
     setPublished((x) => !x);
