@@ -95,9 +95,9 @@ export default function Recipes() {
       <section
         id="admin-recipes-section"
         className="max-w-7xl bg-slate-500/30 mx-auto w-full p-2 sm:p-4 md:p-8 sm:rounded-xl shadow-md shadow-black/40
-          relative"
+          relative flex flex-col flex-1"
       >
-        <div className="flex flex-col gap-3 sm:gap-4 overflow-visible h-full">
+        <div className="flex flex-col h-full gap-3 sm:gap-4 overflow-visible flex-1">
           <div className="flex justify-between place-items-center sm:pb-6 text-white">
             <h1 className="text-2xl font-semibold flex gap-1 place-items-center"><FaReceipt className={"text-vermilion-400"}/>Przepisy</h1>
             {user?.isSignedIn && 
@@ -106,26 +106,31 @@ export default function Recipes() {
             </Link>}
           </div>
           <SearchBar initialValue={matches}/>
-          <div className="overflow-y-visible h-full border-t-2 border-violet-50/40 pt-4">
-            <ul className="flex flex-col gap-4 flex-1 h-full">
-              {loading && <LoadingPanel className="text-white h-full" />}
-              {!loading && recipes.length ? (
-                recipes.map((recipe: RecipeType) => (
-                  <RecipeListItem
-                    favRecipes={favRecipes}
-                    setFavRecipes={setFavRecipes}
-                    key={recipe._id}
-                    recipe={recipe}
-                  />
-                ))
-              ) : (
-                <></>
-              )}
-              {!loading && error && <div>{error}</div>}
-            </ul>
-          </div>
-          <div className="w-full p-4 bg-black flex justify-center text-white gap-2 rounded-lg shadow-md">
-            <PaginationPanel setPage={setPage} page={page} pages={pages} />
+          <div className="flex flex-col flex-1">
+            <div className="overflow-y-visible h-full border-t-2 border-violet-50/40 pt-4 flex flex-col flex-1 justify-between">
+              <ul className="flex flex-col gap-4 flex-1 h-full">
+                {loading && <LoadingPanel className="text-white h-full" />}
+                {!loading && recipes.length ? (
+                  recipes.map((recipe: RecipeType) => (
+                    <RecipeListItem
+                      favRecipes={favRecipes}
+                      setFavRecipes={setFavRecipes}
+                      key={recipe._id}
+                      recipe={recipe}
+                    />
+                  ))
+                ) : (
+                  <></>
+                )}
+                {!loading && error && <div>{error}</div>}
+                {!loading && !recipes.length && <div className="flex flex-1 h-full m-auto">
+                  <span className="text-white m-auto h-full flex-1">Brak przepisów</span>
+                </div>}
+              </ul>
+            </div>
+            {!!recipes.length && <div className="w-full p-4 bg-black flex justify-center text-white gap-2 rounded-lg shadow-md">
+              <PaginationPanel setPage={setPage} page={page} pages={pages} />
+            </div>}
           </div>
         </div>
       </section>
