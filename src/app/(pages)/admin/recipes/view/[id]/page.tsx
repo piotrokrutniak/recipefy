@@ -12,6 +12,7 @@ import { getRecipeDetails } from "@/app/utilities/axios/recipes/details/getDetai
 import parse from "html-react-parser";
 import Link from "next/link";
 import Image from "next/image";
+import { QuillMarkUpParser } from "@/app/components/generic/quill/QuillMarkUpParser";
 
 export default function AddRecipePage({ params }: { params: { id: string } }) {
   const [recipe, setRecipe] = useState<RecipeType>({
@@ -178,12 +179,7 @@ export default function AddRecipePage({ params }: { params: { id: string } }) {
               </ul>
             </div>
           </section>
-          <section id="instructions-section">
-            <div>
-              <h2 className="text-xl font-semibold px-2 sm:px-4 py-4">Instructions</h2>
-              {parse(recipe.recipeDetails.desc || "<p className='opacity-80'>Nic tu nie ma.</p>")}
-            </div>
-          </section>
+          <QuillMarkUpParser instructions={recipe.recipeDetails.desc} sectionId="recipe-section" />
         </main>
       </RecipeContext.Provider>
     </>

@@ -8,7 +8,6 @@ import { patchRecipe } from "@/app/utilities/axios/recipes/patchRecipe";
 import { getRecipe } from "@/app/utilities/axios/recipes/getRecipe";
 import { putRecipeDetails } from "@/app/utilities/axios/recipes/details/putDetails";
 import { getRecipeDetails } from "@/app/utilities/axios/recipes/details/getDetails";
-import parse from "html-react-parser";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 import { Cookies } from "react-cookie";
 import Rating from "@/app/components/generic/rating";
@@ -16,8 +15,8 @@ import RatingActive from "@/app/components/generic/ratingActive";
 import TextArea from "@/app/components/generic/textArea";
 import Button from "@/app/components/generic/button";
 import Image from "next/image";
-import styled from 'styled-components';
 import clsx from "clsx";
+import { QuillMarkUpParser } from "@/app/components/generic/quill/QuillMarkUpParser";
 
 export default function ViewRecipePage({ params }: { params: { id: string } }) {
   const [recipe, setRecipe] = useState<RecipeType>({
@@ -215,7 +214,7 @@ export default function ViewRecipePage({ params }: { params: { id: string } }) {
             </ul>
           </div>
         </section>
-        <InstructionsSection instructions={recipe.recipeDetails.desc} />
+        <QuillMarkUpParser instructions={recipe.recipeDetails.desc} />
       </section>
       <section
         id="admin-recipe-view-section"
@@ -299,40 +298,5 @@ function RatingSection() {
       />
       <Button className="w-fit place-self-end bg-indigo-500">Wyślij</Button>
     </div>
-  );
-}
-
-function InstructionsSection({ instructions }: { instructions: string }) {
-  const StyledDiv = styled.div`
-    & > ul {
-      list-style-type: circle;
-      list-style-position: inside;
-      margin-left: 1rem;
-      margin-bottom: 1rem;
-      font-size: 1rem;
-    },
-    & > p {
-      font-size: 1rem;
-      padding: 0.25rem;
-    },
-    & > h1 {
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin: 0.5rem 0 0.5rem 0;
-    },
-    & > h2 {
-      font-size: 1.25rem;
-      font-weight: 500;
-    },
-  `;
-
-  return (
-    <section id="instructions-section">
-      <div>
-        <StyledDiv>
-          {parse(instructions || "<p className='opacity-80'>Nic tu nie ma.</p>")}
-        </StyledDiv>
-      </div>
-    </section>
   );
 }
