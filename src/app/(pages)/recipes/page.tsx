@@ -4,6 +4,7 @@ import Button from "@/app/components/generic/button";
 import { LoadingPanel } from "@/app/components/generic/loadingPanel";
 import { GeneratePages, PaginationPanel } from "@/app/components/generic/paginationPanel";
 import SearchBar from "@/app/components/generic/searchBar";
+import { SectionWrapper } from "@/app/components/generic/SectionWrapper";
 import FullScreenPopup from "@/app/components/popUps/schedulePopUp/fullScreenPopup";
 import { RecipeType } from "@/app/types";
 import { getRecipes } from "@/app/utilities/axios/recipes/getRecipes";
@@ -14,6 +15,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { Cookies } from "react-cookie";
+import { BsHeartFill, BsJournalPlus } from "react-icons/bs";
 import { FaReceipt } from "react-icons/fa";
 
 export default function Recipes() {
@@ -81,18 +83,30 @@ export default function Recipes() {
 
   return (
     <DeleteActionContext.Provider value={InitDelete}>
-      <section
-        id="admin-recipes-section"
-        className="max-w-7xl bg-slate-500/30 mx-auto w-full p-2 sm:p-4 md:p-8 sm:rounded-xl shadow-md shadow-black/40
-          relative flex flex-col flex-1"
-      >
+      <SectionWrapper id="recipes-section">
         <div className="flex flex-col h-full gap-3 sm:gap-4 overflow-visible flex-1">
-          <div className="flex justify-between place-items-center sm:pb-6 text-white">
+          <div className="flex max-xs:flex-col max-sm:gap-2 justify-between sm:place-items-center sm:pb-6 text-white">
             <h1 className="text-2xl font-semibold flex gap-1 place-items-center"><FaReceipt className={"text-vermilion-400"}/>Przepisy</h1>
-            {user?.isSignedIn && 
-            <Link href={"/admin/recipes/add"} target="_blank">
-              <Button className="bg-indigo-500"> Dodaj </Button>
-            </Link>}
+            <div className="flex gap-2 justify-end">
+              <Link href={"/recipes/favorites"}>
+                <Button className="bg-gray-950 hover:bg-opacity-70 active:opacity-70"> 
+                  <BsHeartFill
+                    className={`fill-red-500 h-full aspect-square shrink-0`}
+                  />
+                  Idź do ulubionych 
+                </Button>
+              </Link>
+              {user?.isSignedIn && 
+              <Link href={"/admin/recipes/add"} target="_blank">
+
+                <Button className="bg-indigo-500"> 
+                  <BsJournalPlus
+                    className={`fill-white h-full aspect-square shrink-0`}
+                  />
+                  Dodaj 
+                </Button>
+              </Link>}
+            </div>
           </div>
           <SearchBar initialValue={matches}/>
           <div className="flex flex-col flex-1">
@@ -122,7 +136,7 @@ export default function Recipes() {
             </div>}
           </div>
         </div>
-      </section>
+      </SectionWrapper>
 
       {deletePopUp && (
         <FullScreenPopup>

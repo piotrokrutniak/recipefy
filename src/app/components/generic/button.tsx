@@ -17,10 +17,9 @@ export default function Button({
   return (
     <button
       type={type}
-      // className={`${className} ${!disabled ? "bg-blue-500 cursor-pointer" : "bg-slate-400 cursor-not-allowed"} p-3 rounded-lg bg-opacity-90 active:bg-opacity-80 hover:bg-opacity-100 transition-all flex items-center gap-2 place-items-center`}
       className={clsx([
         className,
-        !disabled ? "bg-blue-500 cursor-pointer" : "bg-slate-400 cursor-not-allowed",
+        disabled ? "bg-slate-400 cursor-not-allowed" : "bg-blue-500 cursor-pointer",
         "p-3 rounded-lg bg-opacity-90 active:bg-opacity-80 hover:bg-opacity-100 transition-all flex justify-center items-center gap-2 place-items-center"
       ])}
       onClick={
