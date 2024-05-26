@@ -102,11 +102,7 @@ export default function AddRecipePage({ params }: { params: { id: string } }) {
         />
         <div className="flex flex-col gap-2 justify-end place-items-end">
           <span className="text-red-500"> {error} </span>
-          <Button 
-            disabled={!validated} 
-            type="submit"
-            className="flex gap-2 place-items-center"
-          >
+          <Button disabled={!validated} type="submit" className="flex gap-2 place-items-center">
             {" "}
             {loading ? (
               <FaSpinner className="w-5 h-5 animate-spin" />

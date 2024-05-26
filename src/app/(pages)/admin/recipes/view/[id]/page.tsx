@@ -147,7 +147,14 @@ export default function AddRecipePage({ params }: { params: { id: string } }) {
               {recipe?.title}
             </h2>
             <div className="relative h-screen-1/3 w-full aspect-square bg-white/20 rounded-lg shadow-md shrink-0 cursor-pointer">
-              {!!recipe.imageUrl && <Image src={recipe.imageUrl} alt={recipe.title} fill={true} className="w-full h-screen-1/ object-cover rounded-lg" />}
+              {!!recipe.imageUrl && (
+                <Image
+                  src={recipe.imageUrl}
+                  alt={recipe.title}
+                  fill={true}
+                  className="w-full h-screen-1/ object-cover rounded-lg"
+                />
+              )}
             </div>
             <p className="text-lg">{recipe?.summary}</p>
             <div className="flex flex-col gap-2">

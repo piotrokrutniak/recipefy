@@ -14,13 +14,7 @@ import { ParseDate } from "@/app/utilities/globalMethods";
 import axios from "axios";
 import clsx from "clsx";
 import Link from "next/link";
-import {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState
-} from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { FaEdit, FaEllipsisH, FaEye, FaTrash } from "react-icons/fa";
 
 export default function Recipes() {
@@ -258,14 +252,19 @@ const PublishedToggle = ({ recipe }: { recipe: RecipeType }) => {
   const handleToggle = () => {
     setPublished((x) => !x);
     patchRecipe({ ...recipe, published: !recipe.published });
-  };  
-  
+  };
+
   return (
-    <button onClick={handleToggle} className="bg-slate-700 w-full max-w-[48px] p-2 rounded-lg relative text-white">
-      <div className={clsx([
-        "w-6 h-6 rounded-full absolute transition-transform duration-300 ease-in-out -top-[4px]",
-        published ? "bg-indigo-500 right-0" : "bg-slate-400 left-0",
-      ])} />
+    <button
+      onClick={handleToggle}
+      className="bg-slate-700 w-full max-w-[48px] p-2 rounded-lg relative text-white"
+    >
+      <div
+        className={clsx([
+          "w-6 h-6 rounded-full absolute transition-transform duration-300 ease-in-out -top-[4px]",
+          published ? "bg-indigo-500 right-0" : "bg-slate-400 left-0"
+        ])}
+      />
     </button>
   );
 };

@@ -41,7 +41,7 @@ export default function Recipes() {
   useEffect(() => {
     setLoading(true);
     setError("");
-    const matches = searchParams.get("matches")
+    const matches = searchParams.get("matches");
 
     getRecipes(page, matches ?? "")
       .then((x) => {
@@ -86,29 +86,28 @@ export default function Recipes() {
       <SectionWrapper id="recipes-section">
         <div className="flex flex-col h-full gap-3 sm:gap-4 overflow-visible flex-1">
           <div className="flex max-xs:flex-col max-sm:gap-2 justify-between sm:place-items-center sm:pb-6 text-white">
-            <h1 className="text-2xl font-semibold flex gap-1 place-items-center"><FaReceipt className={"text-vermilion-400"}/>Przepisy</h1>
+            <h1 className="text-2xl font-semibold flex gap-1 place-items-center">
+              <FaReceipt className={"text-vermilion-400"} />
+              Przepisy
+            </h1>
             <div className="flex gap-2 justify-end">
               <Link href={"/recipes/favorites"}>
-                <Button className="bg-gray-950 hover:bg-opacity-70 active:opacity-70"> 
-                  <BsHeartFill
-                    className={`fill-red-500 h-full aspect-square shrink-0`}
-                  />
-                  Idź do ulubionych 
+                <Button className="bg-gray-950 hover:bg-opacity-70 active:opacity-70">
+                  <BsHeartFill className={`fill-red-500 h-full aspect-square shrink-0`} />
+                  Idź do ulubionych
                 </Button>
               </Link>
-              {user?.isSignedIn && 
-              <Link href={"/admin/recipes/add"} target="_blank">
-
-                <Button className="bg-indigo-500"> 
-                  <BsJournalPlus
-                    className={`fill-white h-full aspect-square shrink-0`}
-                  />
-                  Dodaj 
-                </Button>
-              </Link>}
+              {user?.isSignedIn && (
+                <Link href={"/admin/recipes/add"} target="_blank">
+                  <Button className="bg-indigo-500">
+                    <BsJournalPlus className={`fill-white h-full aspect-square shrink-0`} />
+                    Dodaj
+                  </Button>
+                </Link>
+              )}
             </div>
           </div>
-          <SearchBar initialValue={matches}/>
+          <SearchBar initialValue={matches} />
           <div className="flex flex-col flex-1">
             <div className="overflow-y-visible h-full border-t-2 border-violet-50/40 pt-4 flex flex-col flex-1 justify-between">
               <ul className="flex flex-col gap-4 flex-1 h-full">
@@ -126,14 +125,18 @@ export default function Recipes() {
                   <></>
                 )}
                 {!loading && error && <div>{error}</div>}
-                {!loading && !recipes.length && <div className="flex flex-1 h-full m-auto">
-                  <span className="text-white m-auto h-full flex-1">Brak przepisów</span>
-                </div>}
+                {!loading && !recipes.length && (
+                  <div className="flex flex-1 h-full m-auto">
+                    <span className="text-white m-auto h-full flex-1">Brak przepisów</span>
+                  </div>
+                )}
               </ul>
             </div>
-            {!!recipes.length && <div className="w-full p-4 bg-black flex justify-center text-white gap-2 rounded-lg shadow-md">
-              <PaginationPanel setPage={setPage} page={page} pages={pages} />
-            </div>}
+            {!!recipes.length && (
+              <div className="w-full p-4 bg-black flex justify-center text-white gap-2 rounded-lg shadow-md">
+                <PaginationPanel setPage={setPage} page={page} pages={pages} />
+              </div>
+            )}
           </div>
         </div>
       </SectionWrapper>

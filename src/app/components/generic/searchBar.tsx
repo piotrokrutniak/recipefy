@@ -19,12 +19,12 @@ export default function SearchBar({ initialValue }: { initialValue?: string }) {
         className="bg-transparent p-3 pl-0 text-white w-full outline-none text-lg border-none"
         value={value}
         onChange={(e) => setValue(e.target.value)}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter') {
-          const baseUrl = window.location.origin;
-          window.location.href = `${baseUrl}/recipes?matches=${value}`;
-        }
-      }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            const baseUrl = window.location.origin;
+            window.location.href = `${baseUrl}/recipes?matches=${value}`;
+          }
+        }}
       />
     </div>
   );

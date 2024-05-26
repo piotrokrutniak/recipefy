@@ -155,11 +155,20 @@ export default function ViewRecipePage({ params }: { params: { id: string } }) {
               />
             )}
           </div>
-          <div className={clsx([
-            "relative h-screen-1/2 w-full aspect-square bg-coal-400 rounded-lg sm:shadow-md shrink-0 cursor-pointer",
-            !recipe.imageUrl && "animate-pulse"
-          ])}>
-            {!!recipe.imageUrl && <Image src={recipe.imageUrl} alt={recipe.title} fill={true} className="w-full h-screen-1/2 object-cover rounded-lg" />}
+          <div
+            className={clsx([
+              "relative h-screen-1/2 w-full aspect-square bg-coal-400 rounded-lg sm:shadow-md shrink-0 cursor-pointer",
+              !recipe.imageUrl && "animate-pulse"
+            ])}
+          >
+            {!!recipe.imageUrl && (
+              <Image
+                src={recipe.imageUrl}
+                alt={recipe.title}
+                fill={true}
+                className="w-full h-screen-1/2 object-cover rounded-lg"
+              />
+            )}
           </div>
           {loading ? (
             <h1 className="bg-coal-400 h-32 text-transparent rounded-lg w-full animate-pulse">

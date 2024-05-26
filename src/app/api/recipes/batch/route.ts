@@ -3,7 +3,6 @@ import { RecipeType } from "@/app/types";
 import { ClientPromise } from "@/app/utilities/mongodb/mongoClient";
 import { NextRequest, NextResponse } from "next/server";
 
-
 export async function POST(request: NextRequest) {
   const client = await ClientPromise();
   const recipe = client.model("recipe", recipeSchema);

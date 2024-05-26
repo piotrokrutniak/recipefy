@@ -8,11 +8,7 @@ import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { FaSave } from "react-icons/fa";
 
-export default function ViewIngredientPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default function ViewIngredientPage({ params }: { params: { id: string } }) {
   const [ingredient, setIngredient] = useState<IngredientType>({
     name: "",
     vegan: false,

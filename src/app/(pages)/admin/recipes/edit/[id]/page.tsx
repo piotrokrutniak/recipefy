@@ -38,7 +38,7 @@ export default function AddRecipePage({ params }: { params: { id: string } }) {
     thumbnailUrl: "",
     imageUrl: "",
     ingredients: [],
-    published: false,
+    published: false
   });
 
   const [error, setError] = useState<string>();
@@ -159,7 +159,10 @@ export default function AddRecipePage({ params }: { params: { id: string } }) {
               <div className="flex justify-between">
                 <span className="font-semibold">Published:</span>
                 <div className="w-[48px] flex place-self-end mb-1">
-                  <SimpleToggle initialValue={recipe?.published ?? false} updateMethod={togglePublished} />
+                  <SimpleToggle
+                    initialValue={recipe?.published ?? false}
+                    updateMethod={togglePublished}
+                  />
                 </div>
               </div>
               <p className="flex whitespace-nowrap justify-between sm:ml-auto mr-0 place-items-center gap-2 w-44">
@@ -181,17 +184,21 @@ export default function AddRecipePage({ params }: { params: { id: string } }) {
             placeholder="Start typing..."
             label="Title"
           />
-          <div 
+          <div
             className="w-full h-screen-1/3 bg-gray-200 cursor-pointer rounded-lg flex justify-center items-center"
-            onClick={() => document.getElementById('imageUpload')?.click()}
-            style={{ backgroundImage: `url(${recipe?.imageUrl})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+            onClick={() => document.getElementById("imageUpload")?.click()}
+            style={{
+              backgroundImage: `url(${recipe?.imageUrl})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center"
+            }}
           >
             {!recipe?.imageUrl && <p>Select Image</p>}
-            <input 
-              type="file" 
-              id="imageUpload" 
-              accept="image/*" 
-              style={{ display: 'none' }} 
+            <input
+              type="file"
+              id="imageUpload"
+              accept="image/*"
+              style={{ display: "none" }}
               onChange={(e) => {
                 const file = e.target.files?.[0];
                 if (file) {
@@ -263,9 +270,9 @@ export default function AddRecipePage({ params }: { params: { id: string } }) {
                 Last saved at: {ParseDateTime(recipe?.updatedAt)}
               </div>
             )}
-            <Button 
+            <Button
               type="submit"
-              disabled={!validated} 
+              disabled={!validated}
               className="flex flex-end gap-2 place-items-center"
             >
               {loading ? (
@@ -325,7 +332,10 @@ async function uploadImageToCloudinary(file: File) {
   formData.append("upload_preset", "default"); // Replace 'default' with your Cloudinary upload preset
 
   try {
-    const response = await axios.post("https://api.cloudinary.com/v1_1/recipefy/image/upload", formData); // Replace 'recipefy' with your Cloudinary cloud name
+    const response = await axios.post(
+      "https://api.cloudinary.com/v1_1/recipefy/image/upload",
+      formData
+    ); // Replace 'recipefy' with your Cloudinary cloud name
     return response.data.url; // This is the URL of the uploaded image
   } catch (error) {
     console.error("Error uploading image to Cloudinary", error);

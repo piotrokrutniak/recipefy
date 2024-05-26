@@ -44,12 +44,17 @@ function Star({
   index?: number;
 }) {
   return filled ? (
-    <FaStar className={`${className ?? ""} w-auto fill-amber-400 aspect-square`} key={index}/>
+    <FaStar className={`${className ?? ""} w-auto fill-amber-400 aspect-square`} key={index} />
   ) : (
-    <FaRegStar className={`${className ?? ""} w-auto aspect-square`} key={index}/>
+    <FaRegStar className={`${className ?? ""} w-auto aspect-square`} key={index} />
   );
 }
 
 function HalfStar({ className = "", index }: { className?: string; index?: number }) {
-  return <FaStarHalfAlt className={`${className ?? ""} w-auto fill-amber-400 aspect-square`} key={index}/>;
+  return (
+    <FaStarHalfAlt
+      className={`${className ?? ""} w-auto fill-amber-400 aspect-square`}
+      key={index}
+    />
+  );
 }

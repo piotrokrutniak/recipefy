@@ -1,7 +1,13 @@
 import parse from "html-react-parser";
 import { MarkUpStyler } from "./MarkUpStyler";
 
-export function QuillMarkUpParser({ instructions, sectionId }: { instructions: string, sectionId?: string}) {
+export function QuillMarkUpParser({
+  instructions,
+  sectionId
+}: {
+  instructions: string;
+  sectionId?: string;
+}) {
   return (
     <section id={sectionId}>
       <div>

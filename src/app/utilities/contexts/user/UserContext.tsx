@@ -1,6 +1,6 @@
 "use client";
-import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { Cookies } from 'react-cookie';
+import React, { createContext, useContext, useState, ReactNode } from "react";
+import { Cookies } from "react-cookie";
 
 interface User {
   // name: string;
@@ -24,13 +24,17 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   const signIn = (data: { email: string; password: string }) => {
     setUser({ ...data, isSignedIn: true, signInExpiresAt: Date.now() + 1000 * 60 * 60 * 24 * 7 });
-    cookies.set("user", { ...data, isSignedIn: true, signInExpiresAt: Date.now() + 1000 * 60 * 60 * 24 * 7 }, { path: "/", expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7) });
-  }
+    cookies.set(
+      "user",
+      { ...data, isSignedIn: true, signInExpiresAt: Date.now() + 1000 * 60 * 60 * 24 * 7 },
+      { path: "/", expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7) }
+    );
+  };
 
   const signOut = () => {
     setUser(null);
     cookies.remove("user", { path: "/" });
-  }
+  };
 
   return (
     <UserContext.Provider value={{ user, setUser, signIn, signOut }}>
@@ -42,7 +46,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
 export function useUser() {
   const context = useContext(UserContext);
   if (context === undefined) {
-    throw new Error('useUser must be used within a UserProvider');
+    throw new Error("useUser must be used within a UserProvider");
   }
   return context;
 }

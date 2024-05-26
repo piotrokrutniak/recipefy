@@ -89,15 +89,15 @@ export default function Tiptap({
               >
                 <FaRedo />
               </button>
-              <button 
+              <button
                 className={`${editor.isActive("h1") ? "bg-slate-50" : "bg-slate-50/40 text-white"} h-8 w-8 line-through font-medium p-2 rounded leading-3`}
-                onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} 
+                onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
               >
                 H1
               </button>
-              <button 
+              <button
                 className={`${editor.isActive("bullet") ? "bg-slate-50" : "bg-slate-50/40 text-white"} h-8 w-8 line-through font-medium p-2 rounded leading-3`}
-                onClick={() => editor.chain().focus().toggleBulletList().run()} 
+                onClick={() => editor.chain().focus().toggleBulletList().run()}
               >
                 ul
               </button>

@@ -60,9 +60,11 @@ export default function FavoriteRecipes() {
                 <></>
               )}
               {!loading && error && <div>{error}</div>}
-              {!loading && !recipes.length && <div className="flex flex-1 h-full m-auto">
-                <span className="text-white m-auto h-full flex-1">Brak ulubionych przepisów</span>
-              </div>}
+              {!loading && !recipes.length && (
+                <div className="flex flex-1 h-full m-auto">
+                  <span className="text-white m-auto h-full flex-1">Brak ulubionych przepisów</span>
+                </div>
+              )}
             </ul>
           </div>
         </div>

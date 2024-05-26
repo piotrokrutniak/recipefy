@@ -9,11 +9,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const router = useRouter();
 
   useEffect(() => {
-    if(!user?.isSignedIn) {
+    if (!user?.isSignedIn) {
       router.push("/");
     }
   }, [router, user?.isSignedIn]);
 
   return <>{children}</>;
 }
-
