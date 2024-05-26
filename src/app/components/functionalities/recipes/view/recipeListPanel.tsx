@@ -56,7 +56,12 @@ export default function RecipeListItem({
   return (
     <li className="w-full md:h-56 border-2 border-coal-400 hover:bg-slate-400/10 shadow-lg rounded-lg flex flex-col md:flex-row gap-3 md:gap-6 p-2 sm:p-4">
       <div className="md:h-full h-screen-1/3 w-auto aspect-square bg-white/20 rounded-lg shadow-md shrink-0 cursor-pointer">
-        <Image src={recipe.imageUrl} alt={recipe.title} width={200} height={200} className="w-full h-full object-cover rounded-lg" />
+        <Link
+          href={"/recipes/" + recipe._id}
+          className="w-full h-full"
+        >
+          <Image src={recipe.imageUrl} alt={recipe.title} width={200} height={200} className="w-full h-full object-cover rounded-lg" />
+        </Link>
       </div>
       <div className="flex flex-col justify-between gap-3 sm:pt-4 overflow-hidden w-full">
         <div className="flex flex-col gap-2 md:gap-4 h-max overflow-hidden">

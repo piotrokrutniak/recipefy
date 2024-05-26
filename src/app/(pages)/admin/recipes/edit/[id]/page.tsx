@@ -47,10 +47,6 @@ export default function AddRecipePage({ params }: { params: { id: string } }) {
   const numRegex: RegExp = new RegExp("d*$");
 
   useEffect(() => {
-    console.log("published", recipe.published)
-  }, [recipe.published]);
-
-  useEffect(() => {
     setValidated(recipe.title.length > 0 && recipe.summary.length > 0);
     getRecipe(params.id)
       .then((x) => {

@@ -16,6 +16,7 @@ import RatingActive from "@/app/components/generic/ratingActive";
 import TextArea from "@/app/components/generic/textArea";
 import Button from "@/app/components/generic/button";
 import Image from "next/image";
+import clsx from "clsx";
 
 export default function ViewRecipePage({ params }: { params: { id: string } }) {
   const [recipe, setRecipe] = useState<RecipeType>({
@@ -115,7 +116,7 @@ export default function ViewRecipePage({ params }: { params: { id: string } }) {
   return (
     <RecipeContext.Provider value={{ recipe: recipe, setRecipe: setRecipe }}>
       <section
-        id="admin-recipe-view-section"
+        id="recipe-view-section"
         className="max-w-4xl bg-slate-500/30 mx-auto w-full max-sm:p-4 p-8 sm:rounded-xl sm:shadow-md shadow-black/40 flex flex-col gap-6"
         onSubmit={(e) => submitAction(e)}
       >
@@ -154,8 +155,11 @@ export default function ViewRecipePage({ params }: { params: { id: string } }) {
               />
             )}
           </div>
-          <div className="relative h-screen-1/2 w-full aspect-square bg-white/20 rounded-lg sm:shadow-md shrink-0 cursor-pointer">
-            <Image src={recipe.imageUrl} alt={recipe.title} fill={true} className="w-full h-screen-1/2 object-cover rounded-lg" />
+          <div className={clsx([
+            "relative h-screen-1/2 w-full aspect-square bg-coal-400 rounded-lg sm:shadow-md shrink-0 cursor-pointer",
+            !recipe.imageUrl && "animate-pulse"
+          ])}>
+            {!!recipe.imageUrl && <Image src={recipe.imageUrl} alt={recipe.title} fill={true} className="w-full h-screen-1/2 object-cover rounded-lg" />}
           </div>
           {loading ? (
             <h1 className="bg-coal-400 h-32 text-transparent rounded-lg w-full animate-pulse">
@@ -210,12 +214,13 @@ export default function ViewRecipePage({ params }: { params: { id: string } }) {
             </ul>
           </div>
         </section>
-        <section id="instructions-section">
-            <div>
-              <h2 className="text-xl font-semibold py-4">Przepis</h2>
-              {parse(recipe.recipeDetails.desc || "<p className='opacity-80'>Nic tu nie ma.</p>")}
-            </div>
-          </section>
+        {/* <section id="instructions-section">
+          <div>
+            <h2 className="text-xl font-semibold py-4">Przepis</h2>
+            {parse(recipe.recipeDetails.desc || "<p className='opacity-80'>Nic tu nie ma.</p>")}
+          </div>
+        </section> */}
+        <InstructionsSection instructions={recipe.recipeDetails.desc} />
       </section>
       <section
         id="admin-recipe-view-section"
@@ -299,5 +304,17 @@ function RatingSection() {
       />
       <Button className="w-fit place-self-end bg-indigo-500">Wyślij</Button>
     </div>
+  );
+}
+
+function InstructionsSection({ instructions }: { instructions: string }) {
+  const styles = StyleSheet
+  return (
+    <section id="instructions-section">
+      <div>
+        <h2 className="text-xl font-semibold px-2 sm:px-4 py-4">Instructions</h2>
+        {parse(instructions || "<p className='opacity-80'>Nic tu nie ma.</p>")}
+      </div>
+    </section>
   );
 }
