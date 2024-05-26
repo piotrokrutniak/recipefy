@@ -12,20 +12,9 @@ import { useUser } from "@/app/utilities/contexts/user/UserContext";
 import axios from "axios";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Cookies } from "react-cookie";
 import { FaReceipt } from "react-icons/fa";
-
-// const DeleteActionContext = createContext<((x: string) => void) | undefined>(undefined);
-
-// export function useDeleteActionContext() {
-//   const setDeletePopUp = useContext(DeleteActionContext);
-//   if (setDeletePopUp === undefined) {
-//     throw new Error("useDeleteActionContext must be used with DeleteActionContext.");
-//   }
-
-//   return setDeletePopUp;
-// }
 
 export default function Recipes() {
   const [recipes, setRecipes] = useState<RecipeType[]>([]);

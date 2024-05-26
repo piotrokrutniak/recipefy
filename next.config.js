@@ -2,9 +2,11 @@
 const nextConfig = {
     images: {
         domains: [
-            "via.placeholder.com",
             "res.cloudinary.com"
         ]
+    },
+    experimental: {
+        missingSuspenseWithCSRBailout: false
     },
     eslint: { 
         ignoreDuringBuilds: true, 
