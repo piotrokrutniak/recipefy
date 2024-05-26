@@ -16,6 +16,7 @@ import RatingActive from "@/app/components/generic/ratingActive";
 import TextArea from "@/app/components/generic/textArea";
 import Button from "@/app/components/generic/button";
 import Image from "next/image";
+import styled from 'styled-components';
 import clsx from "clsx";
 
 export default function ViewRecipePage({ params }: { params: { id: string } }) {
@@ -193,7 +194,7 @@ export default function ViewRecipePage({ params }: { params: { id: string } }) {
         </section>
         <section>
           <div className="w-full relative">
-            <h2 className="text-xl font-semibold py-4">Składniki</h2>
+            <h2 className="text-lg font-semibold py-4">Składniki do inteligentnych sugestii</h2>
 
             <ul className="flex flex-wrap gap-2">
               {loading ? (
@@ -214,12 +215,6 @@ export default function ViewRecipePage({ params }: { params: { id: string } }) {
             </ul>
           </div>
         </section>
-        {/* <section id="instructions-section">
-          <div>
-            <h2 className="text-xl font-semibold py-4">Przepis</h2>
-            {parse(recipe.recipeDetails.desc || "<p className='opacity-80'>Nic tu nie ma.</p>")}
-          </div>
-        </section> */}
         <InstructionsSection instructions={recipe.recipeDetails.desc} />
       </section>
       <section
@@ -308,12 +303,35 @@ function RatingSection() {
 }
 
 function InstructionsSection({ instructions }: { instructions: string }) {
-  const styles = StyleSheet
+  const StyledDiv = styled.div`
+    & > ul {
+      list-style-type: circle;
+      list-style-position: inside;
+      margin-left: 1rem;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    },
+    & > p {
+      font-size: 1rem;
+      padding: 0.25rem;
+    },
+    & > h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0.5rem 0 0.5rem 0;
+    },
+    & > h2 {
+      font-size: 1.25rem;
+      font-weight: 500;
+    },
+  `;
+
   return (
     <section id="instructions-section">
       <div>
-        <h2 className="text-xl font-semibold px-2 sm:px-4 py-4">Instructions</h2>
-        {parse(instructions || "<p className='opacity-80'>Nic tu nie ma.</p>")}
+        <StyledDiv>
+          {parse(instructions || "<p className='opacity-80'>Nic tu nie ma.</p>")}
+        </StyledDiv>
       </div>
     </section>
   );
