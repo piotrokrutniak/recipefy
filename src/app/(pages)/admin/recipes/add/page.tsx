@@ -18,7 +18,7 @@ export default function AddRecipePage({ params }: { params: { id: string } }) {
     },
     recipeDetails: {
       _id: params.id,
-      desc: "<p></p>",
+      desc: "<h2>Składniki</h2><ul><li> </li><li> </li></ul><h2>Instrukcje</h2><p>Instrukcje tutaj</p>",
       recipeId: params.id
     },
     rating: 0,
